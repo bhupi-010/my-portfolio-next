@@ -9,7 +9,7 @@ const HeaderSocials = () => {
         initial={{ y: -500 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.75 }}
-        href="https://linkedin.com"
+        href="https://www.linkedin.com/in/bhupendra-nath-838887233/"
       >
         <BsLinkedin />
       </motion.a>
@@ -17,7 +17,7 @@ const HeaderSocials = () => {
         initial={{ y: -500 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.75 }}
-        href="http://github.com"
+        href="https://github.com/bhupi-010"
       >
         <BsGithub />{" "}
       </motion.a>
@@ -25,7 +25,7 @@ const HeaderSocials = () => {
         initial={{ y: -500 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.75 }}
-        href="http://facebook.com"
+        href="https://www.facebook.com/bhupi.000"
       >
         <BsFacebook />
       </motion.a>
