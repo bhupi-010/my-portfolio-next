@@ -63,34 +63,52 @@ const Contact = () => {
         className="container contact_container"
       >
         <div className="contact_options">
-          <article className="contact_option">
+          <article className="contact_option" aria-labelledby="email-option">
             <FiMail className="contact_option-icon" />
-            <h4>Email</h4>
+            <h4 id="email-option">Email</h4>
             <h5>nathbhupi10@gmail.com</h5>
-            <a href="mailto:nathbhupi10@gmail.com" target="_blank">
-              send a message
+            <a
+              href="mailto:nathbhupi10@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Send an email to nathbhupi10@gmail.com"
+            >
+              Send an email
             </a>
           </article>
-          <article className="contact_option">
+
+          <article
+            className="contact_option"
+            aria-labelledby="messenger-option"
+          >
             <RiMessengerFill className="contact_option-icon" />
-            <h4>Messenger</h4>
-            <h5>Bhupendra nath</h5>
-            <a href="https://m.me/bhupi.000" target="_blank">
-              send a message
+            <h4 id="messenger-option">Messenger</h4>
+            <h5>Bhupendra Nath</h5>
+            <a
+              href="https://m.me/bhupi.000"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Send a message to Bhupendra Nath on Messenger"
+            >
+              Send a message on Messenger
             </a>
           </article>
-          <article className="contact_option">
+
+          <article className="contact_option" aria-labelledby="whatsapp-option">
             <FaWhatsapp className="contact_option-icon" />
-            <h4>Whatsapp</h4>
+            <h4 id="whatsapp-option">Whatsapp</h4>
             <h5>+9779865599757</h5>
             <a
               href="https://api.whatsapp.com/send?phone=+9779865599757"
               target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Send a message to +9779865599757 on WhatsApp"
             >
-              send a message
+              Send a message on WhatsApp
             </a>
           </article>
         </div>
+
         <form ref={form} onSubmit={sendEmail}>
           <input
             type="text"
@@ -107,7 +125,12 @@ const Contact = () => {
             required
           />
 
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="submit"
+            aria-label="Send Message"
+            title="Click to send your message"
+            className="btn btn-primary"
+          >
             Send Message
           </button>
         </form>

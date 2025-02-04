@@ -17,17 +17,17 @@ export const metadata = {
   description:
     "Experienced React Developer with a strong foundation in front-end technologies, specializing in building scalable, user-friendly web applications. Passionate about continuous learning and contributing to innovative projects.",
   keywords:
-    "Web Developer, Portfolio, React, Next.js, JavaScript, Developer, Bhupendra, Nath, Bhupi, Bhupendra Nath Portfolio, Bhupendra Portfolio, React Portfolio, Next.js Portfolio,mahendranagar",
+    "Web Developer, Portfolio, React, Next.js, JavaScript, Developer, Bhupendra, Nath, Bhupi, Bhupendra Nath Portfolio, Bhupendra Portfolio, React Portfolio, Next.js Portfolio, mahendranagar",
   author: "Bhupendra Nath",
   url: "https://www.bhupendranath.com.np",
   image:
-    "https://media.licdn.com/dms/image/v2/C4E03AQH5AxAPpRiLMQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1649655725812?e=1744243200&v=beta&t=Iv6pikALkCDBArxACYPcUGfZLhnAXDnirQAGCBk4ELM", // Replace with actual social preview image URL
+    "https://media.licdn.com/dms/image/v2/C4E03AQH5AxAPpRiLMQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1649655725812?e=1744243200&v=beta&t=Iv6pikALkCDBArxACYPcUGfZLhnAXDnirQAGCBk4ELM",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
+      <Head>
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -70,7 +70,29 @@ export default function RootLayout({ children }) {
         <link rel="me" href="https://github.com/bhupi-010" />
         <link rel="me" href="https://www.facebook.com/bhupi.000" />
         <link rel="me" href="https://www.instagram.com/i_am_bhupi10" />
-      </head>
+
+        {/* JSON-LD Structured Data (SEO Boost) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Bhupendra Nath",
+              jobTitle: "React Developer",
+              url: metadata.url,
+              image: metadata.image,
+              sameAs: [
+                "https://www.linkedin.com/in/bhupendra-nath-838887233/",
+                "https://github.com/bhupi-010",
+                "https://www.facebook.com/bhupi.000",
+                "https://www.instagram.com/i_am_bhupi10",
+              ],
+            }),
+          }}
+        />
+      </Head>
+
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>

@@ -39,7 +39,7 @@ const About = () => {
           <div className="about_me-image">
             <Image
               src="/assets/my.jpg"
-              alt="me_image"
+              alt="Bhupendra Nath's Profile Picture For About Section"
               layout="responsive" // ✅ Makes the image responsive
               width={1200}
               height={800}

@@ -37,7 +37,7 @@ const Header = () => {
         <div className="me">
           <Image
             src="/assets/me1.png"
-            alt="me_image"
+            alt="Bhupendra Nath Profile Picture"
             width="700"
             height="400"
           />

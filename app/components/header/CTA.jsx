@@ -6,6 +6,9 @@ const CTA = () => {
       <motion.a
         href="/assets/CV.pdf"
         className="btn"
+        rel="noreferrer"
+        target="_blank" // Opens the link in a new tab
+        aria-label="Download CV"
         initial={{ rotate: 0 }}
         animate={{ rotate: 360 }}
         transition={{ duration: 0.5 }}
@@ -14,6 +17,8 @@ const CTA = () => {
       </motion.a>
       <motion.a
         href="#contact"
+        rel="noreferrer"
+        aria-label="Contact me"
         className="btn btn-primary"
         initial={{ rotate: 0 }}
         animate={{ rotate: -360 }}

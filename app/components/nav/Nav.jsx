@@ -11,6 +11,8 @@ const Nav = () => {
         href="#"
         onClick={() => setActiveNav("#")}
         className={activeNav === "#" ? "active" : ""}
+        aria-label="Home"
+        aria-current={activeNav === "#" ? "page" : undefined}
       >
         <AiOutlineHome />
       </a>
@@ -18,6 +20,8 @@ const Nav = () => {
         href="#about"
         onClick={() => setActiveNav("#about")}
         className={activeNav === "#about" ? "active" : ""}
+        aria-label="About Me"
+        aria-current={activeNav === "#about" ? "page" : undefined}
       >
         <AiOutlineUser />
       </a>
@@ -25,6 +29,8 @@ const Nav = () => {
         href="#experience"
         onClick={() => setActiveNav("#experience")}
         className={activeNav === "#experience" ? "active" : ""}
+        aria-label="Experience"
+        aria-current={activeNav === "#experience" ? "page" : undefined}
       >
         <BiBook />
       </a>
@@ -32,6 +38,8 @@ const Nav = () => {
         href="#portfolio"
         onClick={() => setActiveNav("#portfolio")}
         className={activeNav === "#portfolio" ? "active" : ""}
+        aria-label="Portfolio"
+        aria-current={activeNav === "#portfolio" ? "page" : undefined}
       >
         <BiFile />
       </a>
@@ -40,6 +48,8 @@ const Nav = () => {
         href="#contact"
         onClick={() => setActiveNav("#contact")}
         className={activeNav === "#contact" ? "active" : ""}
+        aria-label="Contact"
+        aria-current={activeNav === "#contact" ? "page" : undefined}
       >
         <BiMessageSquareDetail />
       </a>
