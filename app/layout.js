@@ -22,13 +22,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <Head>
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
 
         {/* SEO Metadata */}
         <meta
           name="keywords"
-          content="Web Developer, Portfolio, React, Next.js, JavaScript, Developer"
+          content="Web Developer, Portfolio, React, Next.js, JavaScript, Developer,Bhupendra,Nath,Bhupi,Bhupendra Nath Portfolio,Bhupendra Portfolio"
         />
         <meta name="author" content="Bhupendra Nath" />
         <meta name="robots" content="index, follow" />
