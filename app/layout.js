@@ -24,11 +24,11 @@ export const metadata = {
     locale: "en_US",
     images: [
       {
-        url: "https://media.licdn.com/dms/image/v2/C4E03AQH5AxAPpRiLMQ/profile-displayphoto-shrink_1200_630/profile-displayphoto-shrink_1200_630/0/1649655725812?e=1744243200&v=beta&t=Iv6pikALkCDBArxACYPcUGfZLhnAXDnirQAGCBk4ELM",
-        width: 1200,
-        height: 630,
+        url: "https://www.bhupendranath.com.np/profile.png",
+        width: 512,
+        height: 512,
         alt: "Bhupendra Nath - React Developer",
-        type: "image/jpeg",
+        type: "image/png",
       },
     ],
     profile: {
@@ -52,8 +52,7 @@ export default function RootLayout({ children }) {
               name: "Bhupendra Nath",
               jobTitle: "React Developer",
               url: "https://www.bhupendranath.com.np",
-              image:
-                "https://media.licdn.com/dms/image/v2/C4E03AQH5AxAPpRiLMQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1649655725812?e=1744243200&v=beta&t=Iv6pikALkCDBArxACYPcUGfZLhnAXDnirQAGCBk4ELM",
+              image: "https://www.bhupendranath.com.np/profile.png",
               sameAs: [
                 "https://www.linkedin.com/in/bhupendra-nath-838887233/",
                 "https://github.com/bhupi-010",
