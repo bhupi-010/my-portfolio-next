@@ -47,6 +47,7 @@ const Header = () => {
           animate={{ y: 0, rotate: 90 }}
           transition={{ duration: 0.75 }}
           href="#contact"
+          aria-label="Go to Contact me"
           className="scroll_down"
         >
           Scroll Down

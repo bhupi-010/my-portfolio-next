@@ -90,7 +90,11 @@ const About = () => {
             boundaries of web development.
           </p>
           <div className="button">
-            <a href="#contact" className="btn btn-primary">
+            <a
+              href="#contact"
+              aria-label="Go to Contact Section"
+              className="btn btn-primary"
+            >
               Let's Talk
             </a>
           </div>

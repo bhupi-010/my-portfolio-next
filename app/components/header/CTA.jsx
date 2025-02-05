@@ -18,7 +18,7 @@ const CTA = () => {
       <motion.a
         href="#contact"
         rel="noreferrer"
-        aria-label="Contact me"
+        aria-label="Go to Contact me"
         className="btn btn-primary"
         initial={{ rotate: 0 }}
         animate={{ rotate: -360 }}
