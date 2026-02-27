@@ -1,9 +1,4 @@
-import { Hero } from '@/features/hero';
-import { About } from '@/features/about';
-import { Projects } from '@/features/projects';
-import { Experience } from '@/features/experience';
-import { Skills } from '@/features/skills';
-import { Contact } from '@/features/contact';
+import { Hero, About, Projects, Experience, Skills, Contact } from '@/features';
 
 export default function Home() {
   return (

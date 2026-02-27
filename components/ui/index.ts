@@ -1,5 +1,10 @@
 export { Button } from './button';
 export { Badge } from './badge';
-export { Card, CardHeader, CardContent, CardFooter } from './card';
+export { Card, CardHeader, CardContent, CardDescription, CardFooter, CardTitle } from './card';
 export { Section, SectionHeader } from './section';
 export { ThemeToggle } from './theme-toggle';
+export * from './dropdown-menu';
+export * from './tabs';
+export * from './scroll-area';
+export * from './input';
+export * from './textarea';

@@ -12,11 +12,20 @@ export const SITE_CONFIG = {
 } as const;
 
 export const NAV_ITEMS = [
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'About', href: '/#about' },
+  { label: 'Projects', href: '/#projects' },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Skills', href: '/#skills' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Contact', href: '/#contact' },
+] as const;
+
+export const TOOLS_ITEMS = [
+  { label: 'SHA 256 Generator', href: '/tools/sha-256', slug: 'sha-256' },
+  { label: 'JSON Beautifier', href: '/tools/json-beautifier', slug: 'json-beautifier' },
+  { label: 'Base64 Encode/Decode', href: '/tools/base64-text', slug: 'base64-text' },
+  { label: 'Base64 Image Encode/Decode', href: '/tools/base64-image', slug: 'base64-image' },
+  { label: 'Tic Tac Toe Game', href: '/tools/tic-tac-toe', slug: 'tic-tac-toe' },
 ] as const;
 
 export const ANIMATION_DURATION = {
