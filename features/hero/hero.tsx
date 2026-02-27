@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui';
 import { SITE_CONFIG } from '@/constants';
@@ -25,7 +24,7 @@ export function Hero() {
       <div className="container-custom relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Status Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card/50 backdrop-blur-sm mb-8 animate-fade-in-up">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card/50 backdrop-blur-sm mb-8">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
@@ -36,7 +35,7 @@ export function Hero() {
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 animate-fade-in-up opacity-0 [animation-delay:100ms] [animation-fill-mode:forwards]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
             I build{' '}
             <span className="gradient-text">high-performance</span>
             <br />
@@ -44,14 +43,14 @@ export function Hero() {
           </h1>
 
           {/* Description */}
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 animate-fade-in-up opacity-0 [animation-delay:200ms] [animation-fill-mode:forwards]">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
             Senior Frontend Developer specializing in React & Next.js.
             I create scalable, accessible, and performant applications
             with clean architecture and attention to detail.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-in-up opacity-0 [animation-delay:300ms] [animation-fill-mode:forwards]">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <Button size="lg" asChild>
               <a href="#projects">View My Work</a>
             </Button>
@@ -61,7 +60,7 @@ export function Hero() {
           </div>
 
           {/* Social Links */}
-          <div className="flex items-center justify-center gap-4 animate-fade-in-up opacity-0 [animation-delay:400ms] [animation-fill-mode:forwards]">
+          <div className="flex items-center justify-center gap-4">
             {socialLinks.map((link) => (
               <a
                 key={link.name}
