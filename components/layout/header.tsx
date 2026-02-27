@@ -91,6 +91,13 @@ export function Header() {
                           </DropdownMenuItem>
                         );
                       })}
+                      <div className="h-px bg-border my-1 mx-[-2px]" />
+                      <DropdownMenuItem asChild>
+                        <Link href="/games" className="flex items-center gap-3 cursor-pointer py-2.5 px-3 rounded-md hover:bg-primary/10 hover:text-primary transition-colors font-bold text-xs uppercase tracking-widest group">
+                          <Gamepad2 className="h-4 w-4 group-hover:animate-bounce" />
+                          Explore Games Arena
+                        </Link>
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 );
@@ -170,6 +177,17 @@ export function Header() {
                                     </Link>
                                 );
                             })}
+                            <div className="mx-8 h-px bg-border my-2" />
+                            <Link
+                                href="/games"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="flex items-center gap-3 px-8 py-3 text-sm text-primary font-bold uppercase tracking-widest hover:bg-primary/5 rounded-lg transition-colors"
+                            >
+                                <div className="bg-primary/10 p-1.5 rounded-md">
+                                    <Gamepad2 className="h-4 w-4 text-primary" />
+                                </div>
+                                <span>Games Arena</span>
+                            </Link>
                         </div>
                     );
                 }
