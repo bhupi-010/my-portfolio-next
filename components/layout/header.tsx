@@ -7,7 +7,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, FileText, ChevronDown, Hash, FileJson, ArrowRightLeft, Image as ImageIcon, Gamepad2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { NAV_ITEMS, SITE_CONFIG, TOOLS_ITEMS } from '@/constants';
-import { ThemeToggle, Button, DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 const TOOL_ICONS: Record<string, any> = {
   'SHA 256 Generator': Hash,

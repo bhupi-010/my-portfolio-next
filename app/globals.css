@@ -146,7 +146,7 @@
   }
 
   .bg-dot-pattern {
-    background-image: radial-gradient(circleAtCenter, var(--border) 1px, transparent 1px);
+    background-image: radial-gradient(circle at center, var(--border) 1px, transparent 1px);
     background-size: 24px 24px;
     background-repeat: repeat;
   }
