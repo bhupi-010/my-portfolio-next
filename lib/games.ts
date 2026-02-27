@@ -8,95 +8,95 @@ export interface Game {
 
 export const GAMES: Game[] = [
   {
-    title: "2048",
-    slug: "2048",
-    description: "Join the numbers and get to the 2048 tile! A classic addictive puzzle game.",
-    iframeUrl: "https://play2048.co/",
-    category: "Puzzle"
-  },
-  {
-    title: "Tetris",
-    slug: "tetris",
-    description: "The world-famous tile-matching puzzle game. Stack the blocks and clear the lines.",
-    iframeUrl: "https://tetris.com/play-tetris",
+    title: "Hextris",
+    slug: "hextris",
+    description: "A fast-paced hexagonal Tetris variant. Rotate the hexagon to match blocks.",
+    iframeUrl: "https://hextris.io/",
     category: "Arcade"
   },
   {
-    title: "Snake",
-    slug: "snake",
-    description: "Classic Nokia-style snake game. Eat the apples and grow as long as possible.",
-    iframeUrl: "https://www.google.com/logos/2010/pacman10-i.html", // Placeholder, Google Snake usually embedded differently
+    title: "Snake PWA",
+    slug: "snake-pwa",
+    description: "Classic Snake rebuilt as a high-performance progressive web app. Eat and grow!",
+    iframeUrl: "https://snake-pwa.github.io/",
     category: "Classic"
   },
   {
-    title: "Pong",
-    slug: "pong",
-    description: "The original table tennis sports game featuring simple two-dimensional graphics.",
-    iframeUrl: "https://pong-2.com/",
-    category: "Classic"
-  },
-  {
-    title: "Breakout",
-    slug: "breakout",
-    description: "Destroy all the bricks by bouncing a ball with a paddle. High-octane arcade action.",
-    iframeUrl: "https://www.google.com/logos/2013/atari/atari.html",
-    category: "Arcade"
-  },
-  {
-    title: "Minesweeper",
-    slug: "minesweeper",
-    description: "Clear the grid without detonating any hidden mines in this classic logic puzzle.",
-    iframeUrl: "https://minesweeperapp.com/",
+    title: "Soodoku",
+    slug: "sudoku",
+    description: "Clean, minimal Sudoku puzzles. Exercise your logic with infinite number placements.",
+    iframeUrl: "https://soodoku.com/",
     category: "Puzzle"
   },
   {
-    title: "Tic Tac Toe",
-    slug: "tic-tac-toe-pro",
-    description: "Test your strategy in the classic X or O game with a modern minimal interface.",
-    iframeUrl: "/tools/tic-tac-toe", // Internal redirect or external
+    title: "Battleships",
+    slug: "battleships",
+    description: "Solitaire version of the classic naval combat game. Sink the enemy fleet.",
+    iframeUrl: "https://lukerissacher.com/battleships",
+    category: "Strategy"
+  },
+  {
+    title: "Prime Sweeper",
+    slug: "minesweeper-prime",
+    description: "A clever variant of Minesweeper involving prime numbers and logical deduction.",
+    iframeUrl: "https://vole.wtf/primesweeper/",
+    category: "Puzzle"
+  },
+  {
+    title: "Tic Tac Toe AI",
+    slug: "tic-tac-toe-ai",
+    description: "Play the classic Tic Tac Toe against a smart computer opponent. Can you win?",
+    iframeUrl: "https://tmaiadev-tictactoe.netlify.app/",
     category: "Board"
   },
   {
-    title: "Sudoku",
-    slug: "sudoku",
-    description: "Exercise your brain with the popular logic-based number-placement puzzle.",
-    iframeUrl: "https://sudoku.com/",
+    title: "TacTicToe 3D",
+    slug: "tactictoe-3d",
+    description: "A 3D variant of Tic Tac Toe with a unique push mechanic for deeper strategy.",
+    iframeUrl: "https://tactictoe.io/",
+    category: "Strategy"
+  },
+  {
+    title: "Othello Rust",
+    slug: "othello-rust",
+    description: "Fast-paced Othello (Reversi) implementation in Rust and WebAssembly.",
+    iframeUrl: "https://othello-rust.web.app/",
+    category: "Board"
+  },
+  {
+    title: "PWA Memory",
+    slug: "memory-pwa",
+    description: "Find matching pairs in this modern memory game built for fast browser play.",
+    iframeUrl: "https://pwa-memory-game.surge.sh/",
     category: "Puzzle"
   },
   {
-    title: "Hangman",
-    slug: "hangman",
-    description: "Guess the hidden word before the stickman is fully drawn. Classic word game.",
-    iframeUrl: "https://www.hangmanwords.com/play",
-    category: "Word"
+    title: "Sigil",
+    slug: "sigil",
+    description: "An abstract strategy game of alignment and capture. Beautifully designed.",
+    iframeUrl: "https://sigilbattle.com/",
+    category: "Strategy"
   },
   {
-    title: "Memory Game",
-    slug: "memory-game",
-    description: "Find matching pairs of cards to clear the board. Improve your visual memory.",
-    iframeUrl: "https://matchthememory.com/classic",
+    title: "Hex Puzzles",
+    slug: "hex-puzzle",
+    description: "A series of challenging hexagonal logic puzzles that will test your spatial reasoning.",
+    iframeUrl: "http://www.mseymour.ca/hex_puzzle/hexpuzzle.html",
     category: "Puzzle"
   },
   {
-    title: "Space Invaders",
-    slug: "space-invaders",
-    description: "Defend Earth from waves of descending alien invaders in this arcade masterpiece.",
-    iframeUrl: "https://freeinvaders.org/",
-    category: "Arcade"
+    title: "Colamone",
+    slug: "colamone",
+    description: "A chess-like board game with simple rules and deep tactical possibilities.",
+    iframeUrl: "https://kurehajime.github.io/colamone_js/",
+    category: "Board"
   },
   {
-    title: "Pac-Man",
-    slug: "pac-man",
-    description: "Navigate through the maze eating pellets and avoiding ghosts in the retro legend.",
-    iframeUrl: "https://www.google.com/logos/2010/pacman10-i.html",
-    category: "Arcade"
-  },
-  {
-    title: "Asteroids",
-    slug: "asteroids",
-    description: "Pilot your spaceship through a hazardous asteroid field and blast everything in sight.",
-    iframeUrl: "https://freeasteroids.org/",
-    category: "Arcade"
+    title: "HexGL",
+    slug: "hexgl",
+    description: "High-speed futuristic racing game built with HTML5 and WebGL. Feel the speed.",
+    iframeUrl: "http://hexgl.bkcore.com/play/",
+    category: "Racing"
   },
   {
     title: "Chrome Dino",
@@ -113,24 +113,17 @@ export const GAMES: Game[] = [
     category: "Arcade"
   },
   {
-    title: "HexGL",
-    slug: "hexgl",
-    description: "High-speed futuristic racing game built with HTML5 and WebGL. Feel the speed.",
-    iframeUrl: "http://hexgl.bkcore.com/play/",
-    category: "Racing"
-  },
-  {
-    title: "Crossy Road",
-    slug: "crossy-road",
-    description: "Why did the chicken cross the road? Guide characters through busy traffic and rivers.",
-    iframeUrl: "https://poki.com/en/g/crossy-road",
+    title: "Pac-Man",
+    slug: "pac-man",
+    description: "Navigate through the maze eating pellets and avoiding ghosts in the retro legend.",
+    iframeUrl: "https://www.google.com/logos/2010/pacman10-i.html",
     category: "Arcade"
   },
   {
-    title: "Whack a Mole",
-    slug: "whack-a-mole",
-    description: "Quick reflexes required! Hit the moles as they pop out of their holes.",
-    iframeUrl: "https://www.jquerysteps.com/blog/whack-a-mole-game-in-javascript/", // Placeholder code link
+    title: "Space Invaders",
+    slug: "space-invaders",
+    description: "Defend Earth from waves of descending alien invaders in this arcade masterpiece.",
+    iframeUrl: "https://freeinvaders.org/",
     category: "Arcade"
   },
   {
