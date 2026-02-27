@@ -88,6 +88,7 @@ const editorTheme = `
     margin: 0 !important;
     white-space: pre-wrap !important;
     word-break: break-all !important;
+    min-height: 100% !important;
   }
   
   .token.comment { color: #5c6370; }
@@ -302,7 +303,13 @@ export default function JsonBeautifier() {
                     >Minify</button>
                 </div>
             </CardHeader>
-            <div className="json-editor-container">
+            <div 
+                className="json-editor-container cursor-text"
+                onClick={() => {
+                    const textarea = textareaContainerRef.current?.querySelector('textarea');
+                    textarea?.focus();
+                }}
+            >
                 {/* Scrollable Gutter synchronized by shared parent scroll */}
                 <div className="json-editor-gutter">
                     {Array.from({ length: Math.max(lineCount, 1) }).map((_, i) => (
@@ -312,7 +319,10 @@ export default function JsonBeautifier() {
                     ))}
                 </div>
                 
-                <div className="json-editor-textarea-wrapper" ref={textareaContainerRef}>
+                <div 
+                    className="json-editor-textarea-wrapper" 
+                    ref={textareaContainerRef}
+                >
                     {error?.line && (
                         <div 
                             className="error-highlight-overlay" 
@@ -331,6 +341,7 @@ export default function JsonBeautifier() {
                         highlight={code => highlightJSON(code)}
                         padding={16}
                         className="font-mono focus:outline-none"
+                        style={{ minHeight: '100%' }}
                     />
                 </div>
             </div>

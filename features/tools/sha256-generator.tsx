@@ -99,18 +99,25 @@ export default function Sha256Generator() {
                     <Zap className="h-3 w-3" /> input_raw.txt
                 </span>
             </CardHeader>
-            <div className="bg-[#282c34] p-0 min-h-[150px]">
+            <div 
+                className="bg-[#282c34] p-0 min-h-[150px] cursor-text"
+                onClick={(e) => {
+                    const textarea = e.currentTarget.querySelector('textarea');
+                    textarea?.focus();
+                }}
+            >
                 <Editor
                     value={input}
                     onValueChange={generateHash}
                     highlight={code => (Prism.languages.json ? Prism.highlight(code, Prism.languages.json, 'json') : code)}
                     padding={16}
-                    className="font-mono focus:outline-none min-h-[150px] text-white"
+                    className="font-mono focus:outline-none text-white"
                     placeholder="Type or paste your text here to generate SHA-256 hash immediately..."
                     style={{ 
                         fontFamily: EDITOR_FONT_FAMILY,
                         fontSize: 12,
-                        lineHeight: 1.5
+                        lineHeight: 1.5,
+                        minHeight: '150px'
                     }}
                 />
             </div>
