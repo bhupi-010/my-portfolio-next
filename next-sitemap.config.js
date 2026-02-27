@@ -1,5 +1,16 @@
-// next-sitemap.config.js
+/** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: "https://www.bhupendranath.com.np",
+  siteUrl: 'https://bhupendranath.com.np',
   generateRobotsTxt: true,
+  generateIndexSitemap: false,
+  exclude: ['/404'],
+  robotsTxtOptions: {
+    additionalSitemaps: [],
+    policies: [
+      {
+        userAgent: '*',
+        allow: '/',
+      },
+    ],
+  },
 };
