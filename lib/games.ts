@@ -71,13 +71,6 @@ export const GAMES: Game[] = [
     category: "Puzzle"
   },
   {
-    title: "Sigil",
-    slug: "sigil",
-    description: "An abstract strategy game of alignment and capture. Beautifully designed.",
-    iframeUrl: "https://sigilbattle.com/",
-    category: "Strategy"
-  },
-  {
     title: "Hex Puzzles",
     slug: "hex-puzzle",
     description: "A series of challenging hexagonal logic puzzles that will test your spatial reasoning.",
@@ -111,27 +104,6 @@ export const GAMES: Game[] = [
     description: "Tap to flap your wings and navigate through infinite rows of green pipes.",
     iframeUrl: "https://flappybird.io/",
     category: "Arcade"
-  },
-  {
-    title: "Pac-Man",
-    slug: "pac-man",
-    description: "Navigate through the maze eating pellets and avoiding ghosts in the retro legend.",
-    iframeUrl: "https://www.google.com/logos/2010/pacman10-i.html",
-    category: "Arcade"
-  },
-  {
-    title: "Space Invaders",
-    slug: "space-invaders",
-    description: "Defend Earth from waves of descending alien invaders in this arcade masterpiece.",
-    iframeUrl: "https://freeinvaders.org/",
-    category: "Arcade"
-  },
-  {
-    title: "Agar.io",
-    slug: "agar-io",
-    description: "The massive multiplayer survival game. Eat cells smaller than you and grow larger.",
-    iframeUrl: "https://agar.io/",
-    category: "Multiplayer"
   },
   {
     title: "Slither.io",
