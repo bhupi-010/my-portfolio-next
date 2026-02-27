@@ -6,9 +6,24 @@ import { Section, SectionHeader, Card, CardHeader, CardTitle, CardDescription, C
 import { Gamepad2, Play, Trophy } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Mini Games | Bhupendra Nath",
-  description: "A collection of 20+ classic mini browser games. Play 2048, Tetris, Snake, and more directly in your browser.",
-  keywords: "classic games, browser games, 2048, tetris, snake, mini games, online games",
+  title: "Mini Games Arena | Bhupendra Nath",
+  description: "Play 20+ classic mini browser games like Hextris, Sudoku, and Battleships. High-performance, mobile-friendly collection with no downloads required.",
+  keywords: "mini games, browser games, free online games, html5 games, 2048, hextris, sudoku, battleships, logic puzzles, arcade games",
+  alternates: {
+    canonical: "https://bhupendranath.com.np/games",
+  },
+  openGraph: {
+    title: "Mini Games Arena | Bhupendra Nath",
+    description: "Play 20+ classic mini browser games directly in your browser. No downloads required.",
+    url: "https://bhupendranath.com.np/games",
+    siteName: "Bhupendra Nath Portfolio",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mini Games Arena | Bhupendra Nath",
+    description: "Play 20+ classic mini browser games directly in your browser. No downloads required.",
+  },
 };
 
 export default function GamesPage() {

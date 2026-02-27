@@ -22,9 +22,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: `${game.title} | Mini Games`,
-    description: `Play ${game.title} online. ${game.description}`,
-    keywords: `${game.title}, browser game, play ${game.title}, mini games`,
+    title: `${game.title} | Mini Games Arena`,
+    description: `Play ${game.title} online. ${game.description} High-performance, mobile-friendly browser version.`,
+    keywords: `${game.title}, browser game, play ${game.title}, mini games, html5 games, free online games, ${game.category} games`,
+    alternates: {
+      canonical: `https://bhupendranath.com.np/games/${slug}`,
+    },
+    openGraph: {
+      title: `${game.title} | Mini Games Arena`,
+      description: `Play ${game.title} online. ${game.description}`,
+      url: `https://bhupendranath.com.np/games/${slug}`,
+      siteName: "Bhupendra Nath Portfolio",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${game.title} | Mini Games Arena`,
+      description: `Play ${game.title} online. ${game.description}`,
+    },
   };
 }
 
