@@ -98,16 +98,19 @@ export default function Base64ImageTool() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Upload Zone */}
-        <Card 
-            className={cn(
-                "border-2 border-dashed transition-all duration-300 relative overflow-hidden flex flex-col items-center justify-center p-8 bg-muted/20 min-h-[350px]",
-                isDragging ? "border-primary bg-primary/5 scale-[0.99]" : "border-border",
-                base64 && "border-solid border-border"
-            )}
+        <div 
+            className="relative"
             onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
             onDragLeave={() => setIsDragging(false)}
             onDrop={onDrop}
         >
+            <Card 
+                className={cn(
+                    "border-2 border-dashed transition-all duration-300 relative overflow-hidden flex flex-col items-center justify-center p-8 bg-muted/20 min-h-[350px]",
+                    isDragging ? "border-primary bg-primary/5 scale-[0.99]" : "border-border",
+                    base64 && "border-solid border-border"
+                )}
+            >
             <input 
                 type="file" 
                 accept="image/*" 
@@ -159,6 +162,7 @@ export default function Base64ImageTool() {
                 )}
             </AnimatePresence>
         </Card>
+      </div>
 
         {/* Base64 Output */}
         <Card className="border-border shadow-xl rounded-xl overflow-hidden flex flex-col h-[350px]">
