@@ -7,6 +7,8 @@ import { TicTacToe, Sha256Generator, JsonBeautifier, Base64Tool, Base64ImageTool
 import { motion } from "framer-motion";
 import { ArrowLeft, Share2 } from "lucide-react";
 import Link from "next/link";
+import { AdUnit } from "@/components/ads/AdUnit";
+import { ADSENSE_CONFIG } from "@/constants";
 
 const TOOL_COMPONENTS: Record<string, React.ComponentType> = {
   'sha-256': Sha256Generator,
@@ -80,6 +82,12 @@ export function ToolContent({ slug, toolInfo }: ToolContentProps) {
           <div className="min-h-[500px]">
             <ToolComponent />
           </div>
+
+          <AdUnit 
+            pId={ADSENSE_CONFIG.pId} 
+            slot={ADSENSE_CONFIG.slots.toolDetail} 
+            className="mt-8 pt-8 border-t border-border/50 flex justify-center" 
+          />
         </motion.div>
       </div>
     </div>

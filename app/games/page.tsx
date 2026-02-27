@@ -4,6 +4,8 @@ import Link from "next/link";
 import { GAMES } from "@/lib/games";
 import { Section, SectionHeader, Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui";
 import { Gamepad2, Play, Trophy } from "lucide-react";
+import { AdUnit } from "@/components/ads/AdUnit";
+import { ADSENSE_CONFIG } from "@/constants";
 
 export const metadata: Metadata = {
   title: "Mini Games Arena | Bhupendra Nath",
@@ -34,6 +36,12 @@ export default function GamesPage() {
           <SectionHeader
             title="Mini Games Arena"
             description="Relive the classics or challenge yourself with our curated collection of browser-based mini games. No downloads required."
+          />
+
+          <AdUnit 
+            pId={ADSENSE_CONFIG.pId} 
+            slot={ADSENSE_CONFIG.slots.gamesDashboard} 
+            className="mt-8 flex justify-center" 
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-12">

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Section, SectionHeader, Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui";
 import { motion } from "framer-motion";
 import { Hash, FileJson, ArrowRightLeft, Image as ImageIcon, Gamepad2, ArrowRight } from "lucide-react";
+import { AdUnit } from "@/components/ads/AdUnit";
+import { ADSENSE_CONFIG } from "@/constants";
 
 const TOOL_ICONS: Record<string, any> = {
   'SHA 256 Generator': Hash,
@@ -26,6 +28,12 @@ export function ToolsDashboard({ tools }: ToolsDashboardProps) {
           <SectionHeader
             title="Developer Tools"
             description="A premium collection of essential utilities for developers. Built for performance and privacy—all processing happens on your device."
+          />
+
+          <AdUnit 
+            pId={ADSENSE_CONFIG.pId} 
+            slot={ADSENSE_CONFIG.slots.toolsDashboard} 
+            className="mt-8 flex justify-center" 
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">

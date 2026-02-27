@@ -11,6 +11,16 @@ export const SITE_CONFIG = {
   },
 } as const;
 
+export const ADSENSE_CONFIG = {
+  pId: 'ca-pub-8950459557922291',
+  slots: {
+    gamesDashboard: '', // Add your slot IDs here when available
+    gameDetail: '',
+    toolsDashboard: '',
+    toolDetail: '',
+  }
+} as const;
+
 export const NAV_ITEMS = [
   { label: 'About', href: '/#about' },
   { label: 'Projects', href: '/#projects' },

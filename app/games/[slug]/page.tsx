@@ -6,6 +6,8 @@ import { GAMES } from "@/lib/games";
 import { Button } from "@/components/ui";
 import { ArrowLeft } from "lucide-react";
 import { GamePlayer } from "./GamePlayer";
+import { AdUnit } from "@/components/ads/AdUnit";
+import { ADSENSE_CONFIG } from "@/constants";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -69,6 +71,12 @@ export default async function GameDetailPage({ params }: PageProps) {
         </div>
 
         <GamePlayer iframeUrl={game.iframeUrl} title={game.title} />
+
+        <AdUnit 
+          pId={ADSENSE_CONFIG.pId} 
+          slot={ADSENSE_CONFIG.slots.gameDetail} 
+          className="mt-6 flex justify-center" 
+        />
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="md:col-span-2 space-y-4">

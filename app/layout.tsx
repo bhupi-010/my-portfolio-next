@@ -3,7 +3,8 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
-import { SITE_CONFIG } from '@/constants';
+import { SITE_CONFIG, ADSENSE_CONFIG } from '@/constants';
+import { AdSenseScript } from '@/components/ads/AdSenseScript';
 import type { Metadata } from 'next';
 
 const inter = Inter({
@@ -83,6 +84,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_CONFIG.url,
   },
+  other: {
+    'google-adsense-account': 'ca-pub-8950459557922291',
+  },
 };
 
 export default function RootLayout({
@@ -93,6 +97,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}>
+        <AdSenseScript pId={ADSENSE_CONFIG.pId} />
         <ThemeProvider>
           <div className="relative min-h-screen flex flex-col">
             <Header />
