@@ -15,6 +15,9 @@ interface AdUnitProps {
  * Place this where you want ads to appear.
  */
 export function AdUnit({ pId, slot, format = 'auto', responsive = 'true', className }: AdUnitProps) {
+  // Don't render anything if pId or slot is missing
+  if (!pId || !slot) return null;
+
   useEffect(() => {
     try {
       if (typeof window !== 'undefined') {
