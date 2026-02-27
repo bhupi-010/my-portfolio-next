@@ -1,101 +1,134 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { 
     Button, 
     Card, 
     CardContent, 
     CardHeader, 
     CardTitle, 
-    CardDescription, 
-    Input,
-    Badge,
-    ScrollArea
 } from "@/components/ui";
 import { 
     Copy, 
-    FileJson, 
     Check, 
     AlertCircle, 
     Zap, 
     Trash2, 
-    Maximize2, 
-    Minimize2,
+    Minimize2, 
     Download,
-    Code2,
     Settings2,
     FileUp,
-    AlignLeft
+    AlignLeft,
+    Wand2
 } from "lucide-react";
 import Editor from 'react-simple-code-editor';
-import Prism from 'prismjs';
+import * as Prism from 'prismjs';
+if (typeof window !== 'undefined') {
+    (window as any).Prism = Prism;
+}
 import 'prismjs/components/prism-json';
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-// Prism theme styles for the editor
+const EDITOR_FONT_FAMILY = 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
+const EDITOR_FONT_SIZE = 12;
+const EDITOR_LINE_HEIGHT = 1.5;
+
 const editorTheme = `
-  code[class*="language-"], pre[class*="language-"] { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 13px; line-height: 1.6; color: #abb2bf; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; word-wrap: normal; -moz-tab-size: 2; -o-tab-size: 2; tab-size: 2; -webkit-hyphens: none; -moz-hyphens: none; -ms-hyphens: none; hyphens: none; background: transparent; }
-  .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #5c6370; }
+  .json-editor-container { 
+    position: relative; 
+    display: flex; 
+    background: #282c34; 
+    height: 500px; 
+    width: 100%; 
+    border-radius: 0 0 0.75rem 0.75rem; 
+    overflow: auto; /* Key: The entire container scrolls */
+  }
+  
+  .json-editor-gutter { 
+    position: sticky; 
+    left: 0; 
+    z-index: 20; 
+    width: 3rem; 
+    background: #21252b; 
+    border-right: 1px solid #181a1f; 
+    color: #4b5263; 
+    padding: 16px 0; 
+    text-align: right; 
+    user-select: none; 
+    font-family: ${EDITOR_FONT_FAMILY}; 
+    font-size: ${EDITOR_FONT_SIZE}px; 
+    line-height: ${EDITOR_LINE_HEIGHT}; 
+    flex-shrink: 0; 
+    height: max-content;
+    min-height: 100%;
+  }
+  
+  .gutter-line { 
+    padding: 0 0.5rem; 
+    transition: color 0.2s; 
+    height: ${EDITOR_FONT_SIZE * EDITOR_LINE_HEIGHT}px; 
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .gutter-line.error-active { color: #e06c75; font-weight: bold; background: rgba(224, 108, 117, 0.1); }
+  
+  .json-editor-textarea-wrapper { 
+    flex: 1; 
+    position: relative; 
+    min-width: 0; /* Prevent flex overflow */
+  }
+  
+  .json-editor-textarea-wrapper textarea, .json-editor-textarea-wrapper pre { 
+    font-family: ${EDITOR_FONT_FAMILY} !important; 
+    font-size: ${EDITOR_FONT_SIZE}px !important; 
+    line-height: ${EDITOR_LINE_HEIGHT} !important; 
+    padding: 16px !important; 
+    margin: 0 !important;
+    white-space: pre-wrap !important;
+    word-break: break-all !important;
+  }
+  
+  .token.comment { color: #5c6370; }
   .token.punctuation { color: #abb2bf; }
-  .token.namespace { opacity: .7; }
-  .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #d19a66; }
-  .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #98c379; }
-  .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #56b6c2; }
-  .token.atrule, .token.attr-value, .token.keyword { color: #c678dd; }
-  .token.function, .token.class-name { color: #61afef; }
-  .token.regex, .token.important, .token.variable { color: #e06c75; }
+  .token.property { color: #d19a66; }
+  .token.string { color: #98c379; }
+  .token.number, .token.boolean { color: #d19a66; }
+  .token.keyword { color: #c678dd; }
+  
+  .error-highlight-overlay { 
+    position: absolute; 
+    left: 0; 
+    right: 0; 
+    background: rgba(224, 108, 117, 0.1); 
+    pointer-events: none; 
+    z-index: 1; 
+    border-left: 2px solid #e06c75; 
+  }
 `;
+
+const highlightJSON = (code: string) => {
+    // Ensure grammar is loaded (fallback if Prism is reset)
+    if (!Prism.languages.json) {
+        require('prismjs/components/prism-json');
+    }
+    return Prism.highlight(code, Prism.languages.json || {}, 'json');
+};
 
 export default function JsonBeautifier() {
   const [input, setInput] = useState("");
   const [indent, setIndent] = useState(2);
-  const [error, setError] = useState<{message: string, line?: number} | null>(null);
+  const [editorMode, setEditorMode] = useState<'beautify' | 'minify'>('beautify');
+  const [error, setError] = useState<{message: string, line?: number, pos?: number} | null>(null);
   const [copied, setCopied] = useState(false);
   const [stats, setStats] = useState({ size: 0, nodes: 0, depth: 0 });
-
-  const processJson = useCallback((raw: string, action: 'beautify' | 'minify' | 'fix' = 'beautify') => {
-    if (!raw.trim()) {
-      setInput("");
-      setError(null);
-      setStats({ size: 0, nodes: 0, depth: 0 });
-      return;
-    }
-
-    try {
-      let parsed;
-      let textToParse = raw;
-
-      if (action === 'fix') {
-          // Attempt common fixes: add missing quotes, remove trailing commas
-          textToParse = raw
-            .replace(/,\s*([}\]])/g, '$1') // trailing commas
-            .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":') // unquoted keys
-            .replace(/'/g, '"'); // single quotes to double
-      }
-
-      parsed = JSON.parse(textToParse);
-      
-      const result = action === 'minify' 
-        ? JSON.stringify(parsed) 
-        : JSON.stringify(parsed, null, indent);
-      
-      setInput(result);
-      setError(null);
-      calculateStats(parsed, result.length);
-    } catch (e: any) {
-      const lineMatch = e.message.match(/at line (\d+)/);
-      setError({
-        message: e.message,
-        line: lineMatch ? parseInt(lineMatch[1]) : undefined
-      });
-    }
-  }, [indent]);
+  
+  const textareaContainerRef = useRef<HTMLDivElement>(null);
 
   const calculateStats = (obj: any, size: number) => {
     let nodes = 0;
     let maxDepth = 0;
-
     const traverse = (item: any, depth: number) => {
       nodes++;
       maxDepth = Math.max(maxDepth, depth);
@@ -103,20 +136,82 @@ export default function JsonBeautifier() {
         Object.values(item).forEach(v => traverse(v, depth + 1));
       }
     };
-
-    traverse(obj, 1);
+    try { traverse(obj, 1); } catch(e) {}
     setStats({ size, nodes, depth: maxDepth });
   };
 
-  const downloadJson = () => {
-    const blob = new Blob([input], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `data-${new Date().getTime()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+  const validateAndFormat = useCallback((raw: string, modeOverride?: 'beautify' | 'minify' | 'fix') => {
+    if (!raw.trim()) {
+      setError(null);
+      setStats({ size: 0, nodes: 0, depth: 0 });
+      return;
+    }
+
+    const targetMode = modeOverride === 'fix' ? 'beautify' : (modeOverride || editorMode);
+
+    try {
+      let textToParse = raw;
+      
+      if (modeOverride === 'fix') {
+        textToParse = raw
+          .replace(/\/\/.*$/gm, "") // 1. Strip comments
+          .replace(/\/\*[\s\S]*?\*\//g, "")
+          .replace(/'/g, '"') // 2. Normalize quotes
+          
+          // 3. Robust Key Quoting (handles start of line, after spaces, or delimiters)
+          .replace(/((?:[{,\[\n|^]\s*))([a-zA-Z0-9_$]+)\s*:/g, '$1"$2":')
+          
+          // 4. Aggressive Missing Comma Injection
+          // Numbers/Words followed by a quoted key: 1800 "duration" -> 1800, "duration"
+          .replace(/([0-9\.]+|true|false|null|(?:"[^"]*"))\s+(?="[a-zA-Z0-9_$]+":)/g, '$1,')
+          // Close braces followed by a quoted key: } "services" -> }, "services"
+          .replace(/([\}\]])\s+(?="[a-zA-Z0-9_$]+":)/g, '$1,')
+          
+          // 5. Handle unquoted strings values like city: Kathmandu
+          // Target any word after : that isn't a known keyword or followed by a quote
+          .replace(/:\s*([a-zA-Z_$][a-zA-Z0-9_$]*)(?!\s*[:])/g, (match, p1) => {
+              if (['true', 'false', 'null', 'undefined', 'NaN'].includes(p1)) return match;
+              return `: "${p1}"`;
+          })
+          
+          // 6. Handle unquoted dates
+          .replace(/:\s*(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z?)?)(?!\s*:)/g, ': "$1"')
+          
+          // 7. Final Cleanup
+          .replace(/,\s*([}\]])/g, '$1') // Trailing commas
+          .replace(/:\s*undefined/g, ': null') 
+          .replace(/NaN/g, 'null');
+      }
+
+      const parsed = JSON.parse(textToParse);
+      const result = targetMode === 'minify' 
+        ? JSON.stringify(parsed) 
+        : JSON.stringify(parsed, null, indent);
+      
+      setInput(result);
+      setError(null);
+      if (modeOverride && modeOverride !== 'fix') setEditorMode(modeOverride as 'beautify' | 'minify');
+      calculateStats(parsed, result.length);
+    } catch (e: any) {
+      const posMatch = e.message.match(/at position (\d+)/);
+      const lineMatch = e.message.match(/at line (\d+)/);
+      
+      let line = lineMatch ? parseInt(lineMatch[1]) : undefined;
+      let pos = posMatch ? parseInt(posMatch[1]) : undefined;
+
+      if (pos !== undefined && line === undefined) {
+          line = raw.substring(0, pos).split('\n').length;
+      }
+
+      setError({
+        message: e.message.replace(/JSON\.parse: /, ""),
+        line,
+        pos
+      });
+    }
+  }, [indent, editorMode]);
+
+  const lineCount = input.split('\n').length;
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -124,175 +219,200 @@ export default function JsonBeautifier() {
       const reader = new FileReader();
       reader.onload = (re) => {
         const content = re.target?.result as string;
-        processJson(content);
+        setInput(content);
+        validateAndFormat(content);
       };
       reader.readAsText(file);
     }
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(input);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <style dangerouslySetInnerHTML={{ __html: editorTheme }} />
       
-      {/* Top Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-muted/50 p-3 rounded-xl border border-border">
+      {/* Configuration Toolbar */}
+      <div className="flex flex-wrap items-center justify-between gap-2 bg-muted/40 p-2 rounded-lg border border-border">
           <div className="flex items-center gap-2">
-            <div className="flex bg-background border border-border rounded-lg p-1">
+            <div className="flex bg-background border border-border rounded-md p-0.5">
                 {[2, 4].map(num => (
                     <button
                         key={num}
-                        onClick={() => setIndent(num)}
+                        onClick={() => { setIndent(num); validateAndFormat(input, 'beautify'); }}
                         className={cn(
-                            "px-3 py-1 text-xs font-medium rounded-md transition-all",
-                            indent === num ? "bg-primary text-primary-foreground shadow-sm" : "hover:bg-accent"
+                            "px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded transition-all",
+                            indent === num && editorMode === 'beautify' ? "bg-primary text-primary-foreground shadow-sm" : "hover:bg-accent text-muted-foreground"
                         )}
                     >
-                        {num} Spaces
+                        {num}P
                     </button>
                 ))}
             </div>
-            <div className="h-6 w-px bg-border mx-1" />
-            <label className="flex items-center gap-2 cursor-pointer hover:bg-accent px-3 py-1.5 rounded-lg transition-colors group">
-                <FileUp className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
-                <span className="text-xs font-medium">Upload JSON</span>
+            <div className="h-4 w-px bg-border mx-0.5" />
+            <label className="flex items-center gap-1.5 cursor-pointer hover:bg-accent px-2 py-1 rounded-md transition-colors group">
+                <FileUp className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary" />
+                <span className="text-[11px] font-medium hidden sm:inline">Upload</span>
                 <input type="file" accept=".json" onChange={handleFileUpload} className="hidden" />
             </label>
+            <Button variant="ghost" size="sm" onClick={() => { setInput(""); setError(null); setStats({size:0, nodes:0, depth:0}); }} className="h-7 px-2 text-[11px] text-destructive hover:bg-destructive/10">
+                <Trash2 className="h-3.5 w-3.5 mr-1" /> Clear
+            </Button>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => setInput("")} className="h-9">
-                <Trash2 className="h-4 w-4 mr-2" /> Clear
+          <div className="flex items-center gap-1.5">
+            <div className="hidden lg:flex items-center gap-3 px-3 py-1 bg-background/50 border border-border rounded-md mr-1 font-mono text-[10px]">
+                <span className="text-muted-foreground">SIZE: <b>{stats.size}b</b></span>
+                <span className="text-muted-foreground">NODES: <b>{stats.nodes}</b></span>
+            </div>
+            <Button variant="outline" size="sm" onClick={() => {
+                navigator.clipboard.writeText(input);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            }} disabled={!input || !!error} className="h-8 px-3 text-[11px]">
+                {copied ? <Check className="h-3.5 w-3.5 mr-1.5" /> : <Copy className="h-3.5 w-3.5 mr-1.5" />}
+                {copied ? "Copied" : "Copy"}
             </Button>
-            <Button variant="outline" size="sm" onClick={downloadJson} disabled={!input || !!error} className="h-9">
-                <Download className="h-4 w-4 mr-2" /> Download
-            </Button>
-            <Button size="sm" onClick={copyToClipboard} disabled={!input || !!error} className="h-9 min-w-[100px]">
-                {copied ? <Check className="h-4 w-4 mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
-                {copied ? "Copied" : "Copy Result"}
+            <Button size="sm" onClick={() => validateAndFormat(input, 'fix')} disabled={!error} className="h-8 px-3 text-[11px] bg-amber-500 hover:bg-amber-600 text-white border-none shadow-sm shadow-amber-500/20">
+                <Wand2 className="h-3.5 w-3.5 mr-1.5" /> Auto-Fix
             </Button>
           </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Editor Area */}
-        <div className="lg:col-span-8 flex flex-col space-y-4">
-          <Card className="flex-1 min-h-[500px] border-2 border-border focus-within:border-primary/30 transition-all overflow-hidden flex flex-col">
-            <CardHeader className="py-3 bg-muted/30 border-b border-border flex flex-row items-center justify-between">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div className="lg:col-span-9 flex flex-col space-y-4">
+          <Card className="flex-1 border-border transition-all overflow-hidden flex flex-col shadow-xl rounded-xl">
+            <CardHeader className="py-2 px-4 bg-[#21252b] border-b border-[#181a1f] flex flex-row items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-red-400" />
-                    <div className="w-3 h-3 rounded-full bg-amber-400" />
-                    <div className="w-3 h-3 rounded-full bg-emerald-400" />
-                    <CardTitle className="ml-2 text-sm font-mono flex items-center gap-2">
-                        editor.json <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-widest px-1 py-0 h-4">Local</Badge>
-                    </CardTitle>
+                    <div className="flex gap-1.5 mr-2">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+                    </div>
+                    <span className="text-[10px] font-mono text-[#abb2bf] italic">json-editor.io</span>
                 </div>
-                <div className="flex gap-2">
-                    <Button variant="ghost" size="icon" className="h-6 w-6" title="Format (Ctrl+S)" onClick={() => processJson(input)}>
-                        <Zap className="h-3 w-3" />
-                    </Button>
+                <div className="flex gap-1">
+                    <button 
+                        onClick={() => validateAndFormat(input, 'beautify')}
+                        className={cn("px-2 py-0.5 text-[9px] font-bold rounded uppercase tracking-tighter transition-colors", 
+                        editorMode === 'beautify' ? "bg-primary/20 text-primary" : "text-[#abb2bf] hover:bg-white/5")}
+                    >Beautify</button>
+                    <button 
+                        onClick={() => validateAndFormat(input, 'minify')}
+                        className={cn("px-2 py-0.5 text-[9px] font-bold rounded uppercase tracking-tighter transition-colors", 
+                        editorMode === 'minify' ? "bg-primary/20 text-primary" : "text-[#abb2bf] hover:bg-white/5")}
+                    >Minify</button>
                 </div>
             </CardHeader>
-            <CardContent className="p-0 flex-1 relative overflow-auto bg-[#282c34]">
-                <Editor
-                    value={input}
-                    onValueChange={code => {
-                        setInput(code);
-                        processJson(code);
-                    }}
-                    highlight={code => Prism.highlight(code, Prism.languages.json, 'json')}
-                    padding={20}
-                    className="font-mono focus:outline-none min-h-full"
-                    style={{
-                        fontSize: 14,
-                    }}
-                />
-            </CardContent>
-          </Card>
-
-          {/* Error Message */}
-          {error && (
-            <div className="p-4 bg-destructive/10 text-destructive rounded-xl border border-destructive/20 flex gap-4 animate-in slide-in-from-bottom-2">
-                <div className="mt-1 bg-destructive/20 p-2 rounded-lg">
-                    <AlertCircle className="h-5 w-5" />
+            <div className="json-editor-container">
+                {/* Scrollable Gutter synchronized by shared parent scroll */}
+                <div className="json-editor-gutter">
+                    {Array.from({ length: Math.max(lineCount, 1) }).map((_, i) => (
+                        <div key={i} className={cn("gutter-line", error?.line === i + 1 && "error-active")}>
+                            {i + 1}
+                        </div>
+                    ))}
                 </div>
-                <div className="space-y-1">
-                    <p className="font-bold flex items-center gap-2">
-                        Syntax Error {error.line && <Badge variant="destructive">Line {error.line}</Badge>}
-                    </p>
-                    <p className="text-sm opacity-90 font-mono leading-relaxed">{error.message}</p>
-                    <Button variant="link" size="sm" className="h-auto p-0 text-destructive underline" onClick={() => processJson(input, 'fix')}>
-                        💡 Try Auto-Fix (Fix quotes & commas)
-                    </Button>
+                
+                <div className="json-editor-textarea-wrapper" ref={textareaContainerRef}>
+                    {error?.line && (
+                        <div 
+                            className="error-highlight-overlay" 
+                            style={{ 
+                                top: `${16 + (error.line - 1) * EDITOR_FONT_SIZE * EDITOR_LINE_HEIGHT}px`,
+                                height: `${EDITOR_FONT_SIZE * EDITOR_LINE_HEIGHT}px`
+                            }}
+                        />
+                    )}
+                    <Editor
+                        value={input}
+                        onValueChange={code => {
+                            setInput(code);
+                            validateAndFormat(code);
+                        }}
+                        highlight={code => highlightJSON(code)}
+                        padding={16}
+                        className="font-mono focus:outline-none"
+                    />
                 </div>
             </div>
-          )}
+          </Card>
+
+          <AnimatePresence>
+            {error && (
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    className="p-3 bg-destructive/10 text-destructive rounded-lg border border-destructive/20 flex gap-3 min-h-[3.5rem] items-start"
+                >
+                    <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
+                    <div className="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div className="flex-1 text-[11px] font-mono leading-relaxed">
+                           <span className="font-bold border-b border-destructive/30 mr-2">LINE {error.line}:</span> 
+                           {error.message}
+                        </div>
+                        <Button 
+                            variant="destructive" 
+                            size="sm" 
+                            className="h-8 px-4 text-[10px] uppercase font-bold shrink-0 self-end sm:self-auto" 
+                            onClick={() => validateAndFormat(input, 'fix')}
+                        >
+                            <Wand2 className="h-3.5 w-3.5 mr-2" />
+                            Attempt Auto-Fix
+                        </Button>
+                    </div>
+                </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
-        {/* Sidebar / Stats */}
-        <div className="lg:col-span-4 space-y-6">
-            <Card className="shadow-lg">
-                <CardHeader>
-                    <CardTitle className="text-lg flex items-center gap-2">
-                        <Settings2 className="h-5 w-5 text-primary" /> Quick Actions
-                    </CardTitle>
+        <div className="lg:col-span-3 space-y-4">
+            <Card className="bg-gradient-to-br from-primary/5 to-transparent border-primary/10">
+                <CardHeader className="p-3 pb-2">
+                    <CardTitle className="text-[11px] uppercase tracking-widest text-primary font-bold">Quick Toggles</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <Button variant="secondary" className="w-full justify-start gap-2 h-11" onClick={() => processJson(input, 'beautify')}>
-                        <AlignLeft className="h-4 w-4" /> Beautify JSON
+                <CardContent className="p-3 pt-0 space-y-2">
+                    <Button 
+                        variant={editorMode === 'beautify' ? 'primary' : 'outline'} 
+                        className="w-full justify-start gap-2 h-8 text-[11px] px-2" 
+                        onClick={() => validateAndFormat(input, 'beautify')}
+                    >
+                        <AlignLeft className="h-3.5 w-3.5 text-primary" /> Format
                     </Button>
-                    <Button variant="secondary" className="w-full justify-start gap-2 h-11" onClick={() => processJson(input, 'minify')}>
-                        <Maximize2 className="h-4 w-4" /> Minify / Compress
-                    </Button>
-                    <Button variant="outline" className="w-full justify-start gap-2 h-11 border-dashed" onClick={() => processJson(input, 'fix')}>
-                        <Code2 className="h-4 w-4" /> Fix Broken JSON
+                    <Button 
+                        variant={editorMode === 'minify' ? 'primary' : 'outline'} 
+                        className="w-full justify-start gap-2 h-8 text-[11px] px-2" 
+                        onClick={() => validateAndFormat(input, 'minify')}
+                    >
+                        <Minimize2 className="h-3.5 w-3.5" /> Compact
                     </Button>
                 </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-br from-background to-muted border-primary/10">
-                <CardHeader>
-                    <CardTitle className="text-lg flex items-center gap-2">
-                        <Zap className="h-5 w-5 text-amber-500" /> Structure Stats
-                    </CardTitle>
+            <Card className="border-border/60">
+                <CardHeader className="p-3 pb-2">
+                    <CardTitle className="text-[11px] uppercase tracking-widest text-muted-foreground font-bold">Export</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-1">
-                            <p className="text-xs text-muted-foreground uppercase tracking-wider font-bold">Size</p>
-                            <p className="text-xl font-mono font-bold">{(stats.size / 1024).toFixed(2)} KB</p>
-                        </div>
-                        <div className="space-y-1">
-                            <p className="text-xs text-muted-foreground uppercase tracking-wider font-bold">Nodes</p>
-                            <p className="text-xl font-mono font-bold">{stats.nodes}</p>
-                        </div>
-                    </div>
-                    <div className="space-y-2">
-                        <p className="text-xs text-muted-foreground uppercase tracking-wider font-bold">Maximum Depth</p>
-                        <div className="flex items-center gap-4">
-                            <div className="flex-1 h-3 bg-muted rounded-full overflow-hidden border border-border">
-                                <motion.div 
-                                    className="h-full bg-primary"
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${Math.min(stats.depth * 5, 100)}%` }}
-                                />
-                            </div>
-                            <span className="font-mono font-bold text-sm">{stats.depth} levels</span>
-                        </div>
-                        <p className="text-[10px] text-muted-foreground italic">Visualizing object hierarchy complexity.</p>
-                    </div>
+                <CardContent className="p-3 pt-0">
+                    <Button variant="secondary" className="w-full justify-start gap-2 h-8 text-[11px] px-2" onClick={() => {
+                        const blob = new Blob([input], { type: "application/json" });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = `data-${Date.now()}.json`;
+                        a.click();
+                    }}>
+                        <Download className="h-3.5 w-3.5" /> Save File
+                    </Button>
                 </CardContent>
             </Card>
 
-            <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 flex items-start gap-3">
-                <AlertCircle className="h-5 w-5 text-primary mt-0.5" />
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                    <span className="font-bold text-foreground">Pro-Tip:</span> Use the "Auto-Fix" feature to automatically resolve common JSON issues like trailing commas or unquoted keys.
+            <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/10">
+                <div className="flex items-center gap-2 mb-1">
+                    <Wand2 className="h-3 w-3 text-amber-600" />
+                    <span className="text-[10px] font-bold uppercase text-amber-700 tracking-tighter">Smart Fix</span>
+                </div>
+                <p className="text-[10px] text-muted-foreground leading-tight">
+                    Automatically repairs single quotes and trailing commas.
                 </p>
             </div>
         </div>
