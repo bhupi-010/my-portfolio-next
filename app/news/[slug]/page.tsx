@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import Link from "next/link";
 import { ArrowLeft, Calendar, Share, Clock, ChevronRight } from "lucide-react";
 import matter from 'gray-matter';
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   const { items: news } = await getNewsList(1, 100);
@@ -18,6 +19,10 @@ interface PageProps {
 export default async function NewsDetail({ params }: PageProps) {
   const { slug } = await params;
   const rawContent = await getNewsContent(slug);
+  
+  if (!rawContent) {
+    notFound();
+  }
   
   // Use gray-matter to parse any frontmatter if present
   const { data: frontmatter, content } = matter(rawContent);

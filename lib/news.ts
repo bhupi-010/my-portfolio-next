@@ -52,19 +52,19 @@ export async function getNewsList(page: number = 1, limit: number = 5): Promise<
   }
 }
 
-export async function getNewsContent(slug: string): Promise<string> {
+export async function getNewsContent(slug: string): Promise<string | null> {
   try {
     const res = await fetch(`${CONTENT_URL}/${slug}.md`, {
       next: { revalidate: 3600 }
     });
 
     if (!res.ok) {
-      return "# News Not Found\n\nSorry, the news item you are looking for does not exist.";
+      return null;
     }
 
     return res.text();
   } catch (error) {
     console.error(`Error fetching news content for ${slug}:`, error);
-    return "# Error\n\nFailed to load news content.";
+    return null;
   }
 }
