@@ -18,3 +18,18 @@ export interface PostMeta {
   frontmatter: PostFrontmatter;
   readingTime: number;
 }
+
+export interface PaginatedPosts {
+  posts: PostMeta[];
+  totalPosts: number;
+  totalPages: number;
+  currentPage: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+export interface BlogFilters {
+  page?: number;
+  tag?: string;
+  search?: string;
+}
