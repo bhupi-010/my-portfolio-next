@@ -96,6 +96,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+      </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}>
         <AdSenseScript pId={ADSENSE_CONFIG.pId} />
         <ThemeProvider>
