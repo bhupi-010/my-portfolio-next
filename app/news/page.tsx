@@ -1,10 +1,28 @@
 import { getNewsList } from "@/lib/news";
 import Link from "next/link";
 import { Calendar, ArrowRight, Rss, Newspaper, ChevronLeft, ChevronRight } from "lucide-react";
+import { SITE_CONFIG } from "@/constants";
 
 export const metadata = {
   title: "Daily Tech News | Bhupendra Nath",
-  description: "Stay updated with the latest tech news, curated and generated daily.",
+  description: "Stay updated with the latest tech news, curated and generated daily by autonomous agents.",
+  alternates: {
+    canonical: `${SITE_CONFIG.url}/news`,
+  },
+  openGraph: {
+    title: "Daily Tech News | Bhupendra Nath",
+    description: "Stay updated with the latest tech news, curated and generated daily by autonomous agents.",
+    url: `${SITE_CONFIG.url}/news`,
+    type: "website",
+    images: [
+      {
+        url: `${SITE_CONFIG.url}/og-news.png`, // Assuming you have or will have this
+        width: 1200,
+        height: 630,
+        alt: "Daily Tech News",
+      }
+    ]
+  }
 };
 
 interface PageProps {
@@ -20,6 +38,30 @@ export default async function NewsPage({ searchParams }: PageProps) {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Search Console - Schema.org Breadcrumbs */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": SITE_CONFIG.url
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "News",
+                "item": `${SITE_CONFIG.url}/news`
+              }
+            ]
+          })
+        }}
+      />
       {/* Background patterns */}
       <div className="absolute inset-0 bg-dot-pattern opacity-10 pointer-events-none" />
       <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />

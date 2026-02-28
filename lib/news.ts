@@ -1,3 +1,4 @@
+const REVALIDATE_TIME = 3600; // 1 hour
 const INDEX_URL = "https://raw.githubusercontent.com/bhupi-010/bhupi-news/main/news-index.json";
 const CONTENT_URL = "https://raw.githubusercontent.com/bhupi-010/bhupi-news/main/news";
 
@@ -19,7 +20,10 @@ export interface PaginatedNews {
 export async function getNewsList(page: number = 1, limit: number = 5): Promise<PaginatedNews> {
   try {
     const res = await fetch(INDEX_URL, { 
-      next: { revalidate: 3600 },
+      next: { 
+        revalidate: REVALIDATE_TIME,
+        tags: ['news-list']
+      },
       headers: {
         'Cache-Control': 'no-cache',
       }
@@ -55,7 +59,10 @@ export async function getNewsList(page: number = 1, limit: number = 5): Promise<
 export async function getNewsContent(slug: string): Promise<string | null> {
   try {
     const res = await fetch(`${CONTENT_URL}/${slug}.md`, {
-      next: { revalidate: 3600 }
+      next: { 
+        revalidate: REVALIDATE_TIME,
+        tags: [`news-content-${slug}`]
+      }
     });
 
     if (!res.ok) {

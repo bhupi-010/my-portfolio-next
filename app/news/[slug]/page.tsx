@@ -4,6 +4,34 @@ import Link from "next/link";
 import { ArrowLeft, Calendar, Share, Clock, ChevronRight } from "lucide-react";
 import matter from 'gray-matter';
 import { notFound } from "next/navigation";
+import { SITE_CONFIG } from "@/constants";
+
+export async function generateMetadata({ params }: PageProps) {
+  const { slug } = await params;
+  const rawContent = await getNewsContent(slug);
+  
+  if (!rawContent) return { title: "News Not Found" };
+
+  const { data: frontmatter } = matter(rawContent);
+  const title = frontmatter.title || "Latest Tech News";
+  const description = frontmatter.description || "Read more about this technology update on Bhupendra Nath's newsfeed.";
+
+  return {
+    title: `${title} | Bhupendra News`,
+    description: description,
+    alternates: {
+      canonical: `${SITE_CONFIG.url}/news/${slug}`,
+    },
+    openGraph: {
+      title: title,
+      description: description,
+      url: `${SITE_CONFIG.url}/news/${slug}`,
+      type: "article",
+      publishedTime: frontmatter.date,
+      authors: ["Bhupendra Nath"],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const { items: news } = await getNewsList(1, 100);
@@ -24,19 +52,39 @@ export default async function NewsDetail({ params }: PageProps) {
     notFound();
   }
   
-  // Use gray-matter to parse any frontmatter if present
   const { data: frontmatter, content } = matter(rawContent);
-  
-  // Use frontmatter if it exists, otherwise use what we know
-  // We can also try to find the item in the list to get title/date if not in frontmatter
-  const { items: news } = await getNewsList(1, 1000); // Get more to be sure
+  const { items: news } = await getNewsList(1, 1000);
   const newsItem = news.find(n => n.slug === slug);
 
   const title = frontmatter.title || newsItem?.title || (slug.replace(/-/g, ' ').replace(/^\d{4}-\d{2}-\d{2}-/, ''));
   const date = frontmatter.date || newsItem?.date || slug.match(/^\d{4}-\d{2}-\d{2}/)?.[0] || "";
 
+  // Extract first image for structured data if it exists in markdown
+  const imageMatch = content.match(/!\[.*?\]\((.*?)\)/);
+  const featuredImage = imageMatch ? imageMatch[1] : `${SITE_CONFIG.url}/og-news.png`;
+
   return (
     <div className="min-h-screen bg-background relative selection:bg-primary selection:text-primary-foreground">
+      {/* Article Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "headline": title,
+            "description": frontmatter.description || newsItem?.description,
+            "image": [featuredImage],
+            "datePublished": date,
+            "author": [{
+              "@type": "Person",
+              "name": "Bhupendra Nath",
+              "url": SITE_CONFIG.url
+            }]
+          })
+        }}
+      />
+      
       {/* Background patterns */}
       <div className="absolute inset-x-0 top-0 h-[500px] bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
       <div className="absolute inset-0 bg-dot-pattern opacity-5 pointer-events-none" />
