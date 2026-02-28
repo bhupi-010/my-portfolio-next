@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, FileText, ChevronDown, Hash, FileJson, ArrowRightLeft, Image as ImageIcon, Gamepad2 } from 'lucide-react';
+import { Menu, X, FileText, ChevronDown, Hash, FileJson, ArrowRightLeft, Image as ImageIcon, Gamepad2, User, Briefcase, Code, PenTool, Newspaper, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { NAV_ITEMS, SITE_CONFIG, TOOLS_ITEMS } from '@/constants';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
@@ -17,6 +17,14 @@ const TOOL_ICONS: Record<string, any> = {
   'Base64 Encode/Decode': ArrowRightLeft,
   'Base64 Image Encode/Decode': ImageIcon,
   'Tic Tac Toe Game': Gamepad2,
+};
+
+const CATEGORY_ICONS: Record<string, any> = {
+  'About Me': User,
+  'Experience': Briefcase,
+  'Skills': Code,
+  'Blog Posts': PenTool,
+  'Daily News': Newspaper,
 };
 
 export function Header() {
@@ -70,6 +78,7 @@ export function Header() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             {NAV_ITEMS.map((item) => {
+              // Special case for Tools
               if (item.label === 'Tools') {
                 return (
                   <DropdownMenu key={item.label}>
@@ -104,6 +113,36 @@ export function Header() {
                   </DropdownMenu>
                 );
               }
+
+              // Generic dropdown for items with children
+              if ('children' in item && item.children) {
+                return (
+                  <DropdownMenu key={item.label}>
+                    <DropdownMenuTrigger asChild>
+                      <button className="flex items-center gap-1 px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-accent outline-none">
+                        {item.label}
+                        <ChevronDown className="h-4 w-4 opacity-50" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56 p-2 bg-background/95 backdrop-blur-xl border-border shadow-2xl">
+                      {item.children.map((child) => {
+                        const Icon = CATEGORY_ICONS[child.label];
+                        return (
+                          <DropdownMenuItem key={child.label} asChild>
+                            <Link href={child.href} className="flex items-center gap-3 cursor-pointer py-2.5 px-3 rounded-md hover:bg-accent transition-colors">
+                              <div className="bg-primary/10 p-1.5 rounded-md">
+                                {Icon && <Icon className="h-4 w-4 text-primary" />}
+                              </div>
+                              <span className="font-medium text-sm">{child.label}</span>
+                            </Link>
+                          </DropdownMenuItem>
+                        );
+                      })}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                );
+              }
+
               return (
                 <Link
                   key={item.href}
@@ -160,7 +199,8 @@ export function Header() {
                 if (item.label === 'Tools') {
                     return (
                         <div key={item.label} className="space-y-1">
-                            <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                            <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+                                <span className="h-px w-4 bg-border" />
                                 {item.label}
                             </div>
                             {TOOLS_ITEMS.map((tool) => {
@@ -193,6 +233,34 @@ export function Header() {
                         </div>
                     );
                 }
+
+                if ('children' in item && item.children) {
+                  return (
+                    <div key={item.label} className="space-y-1">
+                       <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+                           <span className="h-px w-4 bg-border" />
+                           {item.label}
+                       </div>
+                       {item.children.map((child) => {
+                         const Icon = CATEGORY_ICONS[child.label];
+                         return (
+                            <Link
+                                key={child.label}
+                                href={child.href}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="flex items-center gap-3 px-8 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-colors"
+                            >
+                                <div className="bg-primary/10 p-1.5 rounded-md">
+                                    {Icon && <Icon className="h-4 w-4 text-primary" />}
+                                </div>
+                                <span className="font-medium">{child.label}</span>
+                            </Link>
+                         );
+                       })}
+                    </div>
+                  );
+                }
+
                 return (
                   <motion.div
                     key={item.href}
@@ -230,3 +298,4 @@ export function Header() {
     </header>
   );
 }
+

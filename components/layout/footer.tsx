@@ -34,7 +34,9 @@ export function Footer() {
               Quick Links
             </h3>
             <nav className="flex flex-col gap-2">
-              {NAV_ITEMS.map((item) => (
+              {(NAV_ITEMS as unknown as any[]).flatMap((item) => 
+                item.children ? item.children : [item]
+              ).map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -44,6 +46,9 @@ export function Footer() {
                 </Link>
               ))}
             </nav>
+
+
+
           </div>
 
           {/* Social */}

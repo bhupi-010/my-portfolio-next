@@ -22,11 +22,24 @@ export const ADSENSE_CONFIG = {
 } as const;
 
 export const NAV_ITEMS = [
-  { label: 'About', href: '/#about' },
+  { 
+    label: 'Profile', 
+    href: '/#about',
+    children: [
+      { label: 'About Me', href: '/#about' },
+      { label: 'Experience', href: '/#experience' },
+      { label: 'Skills', href: '/#skills' },
+    ]
+  },
   { label: 'Projects', href: '/#projects' },
-  { label: 'Experience', href: '/#experience' },
-  { label: 'Skills', href: '/#skills' },
-  { label: 'Blog', href: '/blog' },
+  { 
+    label: 'Writing', 
+    href: '/blog',
+    children: [
+      { label: 'Blog Posts', href: '/blog' },
+      { label: 'Daily News', href: '/news' },
+    ]
+  },
   { label: 'Tools', href: '/tools' },
   { label: 'Contact', href: '/#contact' },
 ] as const;
