@@ -151,3 +151,119 @@
     background-repeat: repeat;
   }
 }
+
+/* ── Blog Prose Styles ────────────────────────────────────── */
+.prose-blog {
+  @apply text-foreground leading-relaxed;
+  font-size: 1.0625rem;
+}
+
+.prose-blog h1,
+.prose-blog h2,
+.prose-blog h3,
+.prose-blog h4,
+.prose-blog h5,
+.prose-blog h6 {
+  @apply font-bold tracking-tight text-foreground;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+  line-height: 1.25;
+}
+
+.prose-blog h1 { @apply text-3xl sm:text-4xl; }
+.prose-blog h2 { @apply text-2xl sm:text-3xl; border-bottom: 1px solid hsl(var(--border)); padding-bottom: 0.4em; }
+.prose-blog h3 { @apply text-xl sm:text-2xl; }
+.prose-blog h4 { @apply text-lg sm:text-xl; }
+
+.prose-blog p {
+  margin-bottom: 1.25em;
+  line-height: 1.8;
+  color: hsl(var(--muted-foreground));
+}
+
+.prose-blog a {
+  @apply text-primary font-medium underline underline-offset-4 decoration-primary/30;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+.prose-blog a:hover {
+  @apply decoration-primary;
+}
+
+/* ── Inline code ───────────────────────────────────────────── */
+.prose-blog code {
+  @apply font-mono text-sm rounded-md px-1.5 py-0.5;
+  background: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
+/* ── Code blocks ───────────────────────────────────────────── */
+.prose-blog pre {
+  @apply rounded-xl border border-border overflow-x-auto my-6;
+  padding: 1.25rem 1.5rem;
+  background: hsl(var(--card));
+}
+.prose-blog pre code {
+  @apply bg-transparent p-0 text-sm leading-relaxed;
+  color: inherit;
+}
+
+/* ── Blockquotes ───────────────────────────────────────────── */
+.prose-blog blockquote {
+  @apply border-l-4 border-primary/40 my-6 rounded-r-lg;
+  padding: 1rem 1.25rem;
+  background: hsl(var(--accent) / 0.5);
+}
+.prose-blog blockquote p {
+  @apply italic text-muted-foreground;
+  margin-bottom: 0;
+}
+
+/* ── Lists ─────────────────────────────────────────────────── */
+.prose-blog ul {
+  @apply list-disc pl-6 my-4 space-y-2;
+}
+.prose-blog ol {
+  @apply list-decimal pl-6 my-4 space-y-2;
+}
+.prose-blog li {
+  @apply text-muted-foreground leading-relaxed;
+}
+.prose-blog li::marker {
+  color: hsl(var(--primary));
+}
+
+/* ── Images ────────────────────────────────────────────────── */
+.prose-blog img {
+  @apply rounded-xl border border-border my-8 mx-auto shadow-md;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Horizontal rule ───────────────────────────────────────── */
+.prose-blog hr {
+  @apply border-border my-10;
+}
+
+/* ── Tables ────────────────────────────────────────────────── */
+.prose-blog table {
+  @apply w-full border-collapse my-6 text-sm;
+}
+.prose-blog th {
+  @apply text-left font-semibold px-4 py-3 border-b-2 border-border;
+  background: hsl(var(--accent));
+}
+.prose-blog td {
+  @apply px-4 py-3 border-b border-border text-muted-foreground;
+}
+.prose-blog tr:hover td {
+  background: hsl(var(--accent) / 0.3);
+}
+
+/* ── Strong & em ───────────────────────────────────────────── */
+.prose-blog strong {
+  @apply font-bold text-foreground;
+}
+.prose-blog em {
+  @apply italic;
+}
+
