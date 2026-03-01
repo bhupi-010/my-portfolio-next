@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://www.bhupendranath.com.np
+Host: https://bhupendranath.com.np
 
 # Sitemaps
-Sitemap: https://www.bhupendranath.com.np/sitemap.xml
+Sitemap: https://bhupendranath.com.np/sitemap.xml

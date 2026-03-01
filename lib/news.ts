@@ -3,11 +3,14 @@ const INDEX_URL = "https://raw.githubusercontent.com/bhupi-010/bhupi-news/main/n
 const CONTENT_URL = "https://raw.githubusercontent.com/bhupi-010/bhupi-news/main/news";
 
 export interface NewsItem {
+  id: string;        // URL MD5 hash – unique dedup key
   title: string;
   slug: string;
   date: string;
   description: string;
   category?: string;
+  source?: string;   // Original article URL
+  tags?: string[];   // Auto-extracted tags (e.g. source domain)
 }
 
 export interface PaginatedNews {
@@ -19,14 +22,14 @@ export interface PaginatedNews {
 
 export async function getNewsList(page: number = 1, limit: number = 5): Promise<PaginatedNews> {
   try {
-    const res = await fetch(INDEX_URL, { 
-      next: { 
+    const res = await fetch(INDEX_URL, {
+      next: {
         revalidate: REVALIDATE_TIME,
-        tags: ['news-list']
+        tags: ["news-list"],
       },
       headers: {
-        'Cache-Control': 'no-cache',
-      }
+        "Cache-Control": "no-cache",
+      },
     });
 
     if (!res.ok) {
@@ -35,9 +38,25 @@ export async function getNewsList(page: number = 1, limit: number = 5): Promise<
     }
 
     const allNews: NewsItem[] = await res.json();
-    
+
     // Sort by date descending
     allNews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    // Format ISO date to human-readable format right before slicing
+    allNews.forEach(item => {
+      try {
+        const d = new Date(item.date);
+        if (!isNaN(d.getTime())) {
+          item.date = d.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
+          });
+        }
+      } catch (e) {
+        // Fallback to original if parsing fails
+      }
+    });
 
     const totalItems = allNews.length;
     const totalPages = Math.ceil(totalItems / limit);
@@ -48,7 +67,7 @@ export async function getNewsList(page: number = 1, limit: number = 5): Promise<
       items: paginatedItems,
       totalPages,
       currentPage: page,
-      totalItems
+      totalItems,
     };
   } catch (error) {
     console.error("Error fetching news list:", error);
@@ -59,10 +78,10 @@ export async function getNewsList(page: number = 1, limit: number = 5): Promise<
 export async function getNewsContent(slug: string): Promise<string | null> {
   try {
     const res = await fetch(`${CONTENT_URL}/${slug}.md`, {
-      next: { 
+      next: {
         revalidate: REVALIDATE_TIME,
-        tags: [`news-content-${slug}`]
-      }
+        tags: [`news-content-${slug}`],
+      },
     });
 
     if (!res.ok) {
