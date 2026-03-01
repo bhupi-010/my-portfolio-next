@@ -167,7 +167,6 @@ export default async function NewsDetail({ params }: PageProps) {
                   href={sourceUrl!}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
                   className="flex items-center gap-1.5 text-sm font-medium py-1 px-3 bg-card border rounded-full text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
