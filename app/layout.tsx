@@ -99,6 +99,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        <link rel="dns-prefetch" href="https://fundingchoicesmessages.google.com" />
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}>
         <AdSenseScript pId={ADSENSE_CONFIG.pId} />

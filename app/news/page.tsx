@@ -36,6 +36,37 @@ export default async function NewsPage({ searchParams }: PageProps) {
 
   const { items: news, totalPages, totalItems } = await getNewsList(currentPage, limit);
 
+  // First and last page always visible; left and right of selected page always appear (current-1, current, current+1).
+  const getPaginationItems = (): (number | "ellipsis")[] => {
+    if (totalPages <= 1) return [];
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    const items: (number | "ellipsis")[] = [];
+    const left = Math.max(1, currentPage - 1);
+    const right = Math.min(totalPages, currentPage + 1);
+    const window = [...new Set([left, currentPage, right])].sort((a, b) => a - b);
+
+    items.push(1);
+    if (window[0] > 2) {
+      items.push("ellipsis");
+    }
+    if (window[0] === 1) {
+      items.push(...window.slice(1));
+    } else {
+      items.push(...window);
+    }
+    if (window[window.length - 1] < totalPages - 1) {
+      items.push("ellipsis");
+    }
+    if (window[window.length - 1] !== totalPages) {
+      items.push(totalPages);
+    }
+    return items;
+  };
+
+  const paginationItems = getPaginationItems();
+
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Schema.org Breadcrumbs */}
@@ -167,37 +198,49 @@ export default async function NewsPage({ searchParams }: PageProps) {
                   href={`/news?page=${currentPage - 1}`}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
                     currentPage <= 1
-                      ? "pointer-events-none opacity-50 cursor-not-allowed bg-muted"
-                      : "hover:bg-primary/10 hover:border-primary/50 bg-card"
+                      ? "pointer-events-none cursor-not-allowed bg-muted text-muted-foreground border-border"
+                      : "hover:bg-primary/10 hover:border-primary/50 bg-card text-foreground"
                   }`}
+                  aria-disabled={currentPage <= 1}
                 >
                   <ChevronLeft className="w-4 h-4" />
                   Previous
                 </Link>
 
                 <div className="flex items-center gap-2">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                    <Link
-                      key={page}
-                      href={`/news?page=${page}`}
-                      className={`w-10 h-10 flex items-center justify-center rounded-lg border transition-all ${
-                        currentPage === page
-                          ? "bg-primary text-primary-foreground border-primary font-bold"
-                          : "bg-card hover:bg-primary/10 hover:border-primary/50"
-                      }`}
-                    >
-                      {page}
-                    </Link>
-                  ))}
+                  {paginationItems.map((item, idx) =>
+                    item === "ellipsis" ? (
+                      <span
+                        key={`ellipsis-${idx}`}
+                        className="w-10 h-10 flex items-center justify-center rounded-lg text-muted-foreground"
+                        aria-hidden
+                      >
+                        ...
+                      </span>
+                    ) : (
+                      <Link
+                        key={`page-${item}`}
+                        href={`/news?page=${item}`}
+                        className={`w-10 h-10 flex items-center justify-center rounded-lg border transition-all ${
+                          currentPage === item
+                            ? "bg-primary text-primary-foreground border-primary font-bold"
+                            : "bg-card hover:bg-primary/10 hover:border-primary/50"
+                        }`}
+                      >
+                        {item}
+                      </Link>
+                    )
+                  )}
                 </div>
 
                 <Link
                   href={`/news?page=${currentPage + 1}`}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
                     currentPage >= totalPages
-                      ? "pointer-events-none opacity-50 cursor-not-allowed bg-muted"
-                      : "hover:bg-primary/10 hover:border-primary/50 bg-card"
+                      ? "pointer-events-none cursor-not-allowed bg-muted text-muted-foreground border-border"
+                      : "hover:bg-primary/10 hover:border-primary/50 bg-card text-foreground"
                   }`}
+                  aria-disabled={currentPage >= totalPages}
                 >
                   Next
                   <ChevronRight className="w-4 h-4" />

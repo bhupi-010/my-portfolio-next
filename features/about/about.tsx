@@ -62,7 +62,7 @@ export function About() {
           <div className="space-y-6">
             <div className="space-y-4">
               <p className="text-lg text-muted-foreground leading-relaxed">
-                With over <span className="text-foreground font-medium">3 years of experience</span> in 
+                With <span className="text-foreground font-medium">3+ years of experience</span> in 
                 frontend development, I specialize in building high-performance web applications 
                 using React, Next.js, and TypeScript.
               </p>
@@ -72,8 +72,8 @@ export function About() {
                 scalable code architecture.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Currently at <span className="text-foreground font-medium">Fintech Solution company</span>, where I lead
-                frontend development for fintech applications, focusing on secure and performant user interfaces.
+                Currently at <span className="text-foreground font-medium">Fintech Solutions Pvt Ltd</span>, where I work as a
+                React Developer on fintech applications, focusing on secure and performant user interfaces.
               </p>
             </div>
 
