@@ -40,7 +40,7 @@ export function BlogLayout({ post, relatedPosts }: BlogLayoutProps) {
 
         {/* Meta row */}
         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
-          <span className="flex items-center gap-1.5">
+          <span className="flex items-center gap-1.5" suppressHydrationWarning>
             <Calendar className="h-4 w-4 text-primary" />
             {formattedDate}
           </span>

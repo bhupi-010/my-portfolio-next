@@ -74,7 +74,7 @@ export function BlogCard({ post, index = 0 }: BlogCardProps) {
           {/* Meta */}
           <footer className="flex items-center justify-between border-t border-border/50 pt-4">
             <div className="flex items-center gap-4 text-xs text-muted-foreground">
-              <time dateTime={frontmatter.date} className="flex items-center gap-1.5">
+              <time dateTime={frontmatter.date} className="flex items-center gap-1.5" suppressHydrationWarning>
                 <Calendar className="h-3.5 w-3.5" />
                 {formattedDate}
               </time>

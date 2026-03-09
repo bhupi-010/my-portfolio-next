@@ -3,11 +3,12 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { GAMES } from "@/lib/games";
+import { GAME_PAGE_CONTENT } from "@/data/gamePageContent";
 import { Button } from "@/components/ui";
 import { ArrowLeft } from "lucide-react";
 import { GamePlayer } from "./GamePlayer";
 import { AdUnit } from "@/components/ads/AdUnit";
-import { ADSENSE_CONFIG } from "@/constants";
+import { ADSENSE_CONFIG, SITE_CONFIG } from "@/constants";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -28,12 +29,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description: `Play ${game.title} online. ${game.description} High-performance, mobile-friendly browser version.`,
     keywords: `${game.title}, browser game, play ${game.title}, mini games, html5 games, free online games, ${game.category} games`,
     alternates: {
-      canonical: `https://bhupendranath.com.np/games/${slug}`,
+      canonical: `${SITE_CONFIG.url}/games/${slug}`,
     },
     openGraph: {
       title: `${game.title} | Mini Games Arena`,
       description: `Play ${game.title} online. ${game.description}`,
-      url: `https://bhupendranath.com.np/games/${slug}`,
+      url: `${SITE_CONFIG.url}/games/${slug}`,
       siteName: "Bhupendra Nath Portfolio",
       type: "website",
     },
@@ -70,7 +71,11 @@ export default async function GameDetailPage({ params }: PageProps) {
           </Link>
         </div>
 
-        <GamePlayer iframeUrl={game.iframeUrl} title={game.title} />
+        <GamePlayer
+          iframeUrl={game.iframeUrl}
+          title={game.title}
+          embedBlocked={game.embedBlocked}
+        />
 
         <AdUnit 
           pId={ADSENSE_CONFIG.pId} 
@@ -79,11 +84,33 @@ export default async function GameDetailPage({ params }: PageProps) {
         />
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-2 space-y-4">
-                <h3 className="text-lg font-bold">About {game.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                    {game.description} This version is optimized for browser play and works on most modern devices. Enjoy the gameplay without any downloads or installations.
-                </p>
+            <div className="md:col-span-2 space-y-6">
+                <section>
+                    <h2 className="text-lg font-bold mb-3">About {game.title}</h2>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                        {game.description} This version is optimized for browser play and works on most modern devices. Enjoy the gameplay without any downloads or installations.
+                    </p>
+                </section>
+                {(() => {
+                    const content = GAME_PAGE_CONTENT[game.slug];
+                    if (!content) return null;
+                    return (
+                        <>
+                            <section>
+                                <h2 className="text-lg font-bold mb-3">How to Play</h2>
+                                <p className="text-muted-foreground text-sm leading-relaxed">
+                                    {content.howToPlay}
+                                </p>
+                            </section>
+                            <section>
+                                <h2 className="text-lg font-bold mb-3">Why This Game Is in the Collection</h2>
+                                <p className="text-muted-foreground text-sm leading-relaxed">
+                                    {content.whyIncluded}
+                                </p>
+                            </section>
+                        </>
+                    );
+                })()}
             </div>
             <div className="bg-background/50 border border-border rounded-xl p-4 space-y-4">
                 <h3 className="text-sm font-black uppercase tracking-widest text-primary">Game Info</h3>

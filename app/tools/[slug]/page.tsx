@@ -1,7 +1,8 @@
 import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { TOOLS_ITEMS } from "@/constants";
+import { TOOLS_ITEMS, SITE_CONFIG } from "@/constants";
+import { TOOL_PAGE_CONTENT } from "@/data/toolPageContent";
 import { ToolContent } from "./ToolContent";
 
 interface PageProps {
@@ -26,13 +27,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description,
     keywords: tool.keywords,
     alternates: {
-      canonical: `https://bhupendranath.com.np/tools/${slug}`,
+      canonical: `${SITE_CONFIG.url}/tools/${slug}`,
     },
     openGraph: {
       title,
       description,
       type: "website",
-      url: `https://bhupendranath.com.np/tools/${slug}`,
+      url: `${SITE_CONFIG.url}/tools/${slug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -56,5 +57,7 @@ export default async function ToolDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  return <ToolContent slug={slug} toolInfo={toolInfo} />;
+  const pageContent = TOOL_PAGE_CONTENT[slug] ?? null;
+
+  return <ToolContent slug={slug} toolInfo={toolInfo} pageContent={pageContent} />;
 }

@@ -30,7 +30,7 @@ const securityHeaders = [
       "img-src 'self' data: blob: https: http:",
       "font-src 'self' data:",
       "connect-src 'self' https://pagead2.googlesyndication.com https://www.google.com https://fundingchoicesmessages.google.com https://ep1.adtrafficquality.google https://*.adtrafficquality.google",
-      "frame-src 'self' https://pagead2.googlesyndication.com https://google.com https://fundingchoicesmessages.google.com",
+      "frame-src 'self' https://pagead2.googlesyndication.com https://google.com https://fundingchoicesmessages.google.com https://playpager.com https://hextris.io https://snake-pwa.github.io https://soodoku.com https://lukerissacher.com https://vole.wtf https://tmaiadev-tictactoe.netlify.app https://tactictoe.io https://othello-rust.web.app https://pwa-memory-game.surge.sh https://www.mseymour.ca http://www.mseymour.ca https://kurehajime.github.io https://hexgl.bkcore.com http://hexgl.bkcore.com https://chromedino.com https://flappybird.io https://slither.io https://play.vehikill.io https://agar.io https://diep.io https://krunker.io https://hole.io https://surviv.io https://tankroyale.io https://buildroyale.io https://sharkz.io https://sworm.io https://onlinerobotroyale.com https://gartic.io https://skribbl.io https://bombparty.io https://crossplaygame.org https://webtictactoe.com https://play-ludo.com https://dragonbound.net https://striketactics.net",
       "frame-ancestors 'self'",
       "object-src 'none'",
       "base-uri 'self'",

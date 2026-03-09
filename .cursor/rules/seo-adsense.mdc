@@ -1,0 +1,44 @@
+---
+description: Keep SEO and AdSense intact when changing games, tools, or pages
+alwaysApply: true
+---
+
+# SEO & AdSense Compliance
+
+When adding, removing, or changing games, tools, or public pages, preserve SEO and AdSense support.
+
+## SEO (do not break)
+
+- **Sitemap**: `app/sitemap.ts` uses `GAMES` and `TOOLS_ITEMS` (and projects). Adding/removing games or tools automatically updates the sitemap as long as the data sources stay the same. Do not remove or bypass these imports.
+- **Canonical URLs**: Every public page must have `alternates.canonical` in metadata (e.g. `https://bhupendranath.com.np/games`, `.../games/[slug]`). Use `SITE_CONFIG.url` when available.
+- **Metadata**: Every public route must have `generateMetadata` or `metadata` with at least: `title`, `description`, and `alternates.canonical`. Include `keywords` and `openGraph` / `twitter` for main and detail pages.
+- **Thin content (AdSense)**: Game and tool detail pages must have substantial unique content. Keep and extend `data/gamePageContent.ts` and `data/toolPageContent.ts`—each game/tool should have a `howToPlay` and `whyIncluded` (or equivalent) block. Do not remove long-form content; add entries when adding new games or tools.
+- **Static params**: `generateStaticParams` for `app/games/[slug]` and `app/tools/[slug]` must return all current slugs from `GAMES` and `TOOLS_ITEMS` so all detail pages are pre-rendered and included in the sitemap.
+- **robots**: Do not disallow public game/tool/blog/news paths. Keep `app/robots.ts` pointing to the sitemap.
+
+## AdSense (do not break)
+
+- **Script**: `app/layout.tsx` includes `AdSenseScript` with `ADSENSE_CONFIG.pId`. Do not remove it or change the config without good reason.
+- **Ad units**: Ad units are used on: games dashboard (`app/games/page.tsx`), game detail (`app/games/[slug]/page.tsx`), tools dashboard and tool detail. Keep these placements when refactoring; do not cover the game iframe with ads (per PlayPager/AdSense policy).
+- **CSP**: `next.config.ts` must allow AdSense in `script-src`, `frame-src`, and `connect-src` (e.g. `pagead2.googlesyndication.com`, `google.com`, `fundingchoicesmessages.google.com`). Do not remove these when adding or tightening security headers.
+- **Content policy**: Do not add or link to adult, illegal, or policy-violating content. Keep game/tool descriptions and page content family-safe.
+
+## When adding a game
+
+1. Add the game to `lib/games.ts` (title, slug, description, iframeUrl, category).
+2. Add a matching entry in `data/gamePageContent.ts` with `howToPlay` and `whyIncluded` (150+ words total).
+3. If the game’s origin is new, add its domain to `frame-src` in `next.config.ts`.
+4. Sitemap and `generateStaticParams` stay correct as long as `GAMES` is the single source of truth.
+
+## When removing a game
+
+1. Remove the game from `lib/games.ts`.
+2. Remove its entry from `data/gamePageContent.ts`.
+3. Optionally remove its domain from `frame-src` in `next.config.ts` if no other game uses it.
+
+## When adding or removing a tool
+
+1. Update `TOOLS_ITEMS` in `constants/index.ts`.
+2. Add or remove the tool’s content in `data/toolPageContent.ts`.
+3. Register the tool component and slug in `app/tools/[slug]/ToolContent.tsx` if it has a custom component.
+4. Sitemap uses `TOOLS_ITEMS`; keep it the single source for tool slugs.

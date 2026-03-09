@@ -101,7 +101,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
         <link rel="dns-prefetch" href="https://fundingchoicesmessages.google.com" />
       </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`} suppressHydrationWarning>
         <AdSenseScript pId={ADSENSE_CONFIG.pId} />
         <ThemeProvider>
           <div className="relative min-h-screen flex flex-col">

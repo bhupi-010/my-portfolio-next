@@ -14,7 +14,6 @@ import {
     Gamepad2,
     Users,
     Zap,
-    History
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { motion, AnimatePresence } from "framer-motion";
@@ -126,65 +125,66 @@ export default function TicTacToe() {
   };
 
   return (
-    <div className="space-y-6 max-w-xl mx-auto py-4">
-      {/* Game Header */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="space-y-3 max-w-sm mx-auto py-2">
+      {/* Score row – compact */}
+      <div className="grid grid-cols-3 gap-2">
           <Card className="bg-primary/5 border-primary/10 overflow-hidden relative">
-              <div className="p-3 text-center">
-                  <p className="text-[10px] font-bold text-primary uppercase tracking-tighter mb-1 flex items-center justify-center gap-1">
-                      <User className="h-3 w-3" /> Player X
+              <div className="p-2 text-center">
+                  <p className="text-[9px] font-bold text-primary uppercase tracking-tighter flex items-center justify-center gap-0.5">
+                      <User className="h-2.5 w-2.5" /> X
                   </p>
-                  <p className="text-xl font-black text-primary">{score.X}</p>
+                  <p className="text-lg font-black text-primary leading-tight">{score.X}</p>
               </div>
-              {isXNext && !winner && <motion.div layoutId="turn" className="absolute bottom-0 left-0 right-0 h-1 bg-primary" />}
+              {isXNext && !winner && <motion.div layoutId="turn" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />}
           </Card>
-          <Card className="bg-muted/50 border-border overflow-hidden p-3 text-center">
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-tighter mb-1">Draws</p>
-              <p className="text-xl font-black text-foreground">{score.Draws}</p>
+          <Card className="bg-muted/50 border-border overflow-hidden p-2 text-center">
+              <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">Draws</p>
+              <p className="text-lg font-black text-foreground leading-tight">{score.Draws}</p>
           </Card>
           <Card className="bg-blue-500/5 border-blue-500/10 overflow-hidden relative">
-              <div className="p-3 text-center">
-                  <p className="text-[10px] font-bold text-blue-500 uppercase tracking-tighter mb-1 flex items-center justify-center gap-1">
-                      {isAgainstCpu ? <Cpu className="h-3 w-3" /> : <Users className="h-3 w-3" />} Player O
+              <div className="p-2 text-center">
+                  <p className="text-[9px] font-bold text-blue-500 uppercase tracking-tighter flex items-center justify-center gap-0.5">
+                      {isAgainstCpu ? <Cpu className="h-2.5 w-2.5" /> : <Users className="h-2.5 w-2.5" />} O
                   </p>
-                  <p className="text-xl font-black text-blue-500">{score.O}</p>
+                  <p className="text-lg font-black text-blue-500 leading-tight">{score.O}</p>
               </div>
-              {!isXNext && !winner && <motion.div layoutId="turn" className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500" />}
+              {!isXNext && !winner && <motion.div layoutId="turn" className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500" />}
           </Card>
       </div>
 
-      {/* Main Game Interface */}
+      {/* Board – single-screen size, touch-friendly */}
       <div className="relative group">
-        <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-blue-500/20 to-primary/20 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition duration-1000"></div>
-        
-        <Card className="relative bg-background/80 backdrop-blur-xl border-border shadow-2xl p-6 rounded-3xl">
-            <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                        <Gamepad2 className="h-5 w-5 text-primary" />
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 via-blue-500/20 to-primary/20 rounded-2xl blur-lg opacity-30 group-hover:opacity-50 transition duration-1000" />
+        <Card className="relative bg-background/80 backdrop-blur-xl border-border shadow-xl p-4 rounded-2xl">
+            <div className="flex items-center justify-between mb-2 gap-2">
+                <div className="flex items-center gap-1.5 min-w-0">
+                    <div className="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <Gamepad2 className="h-3 w-3 text-primary" />
                     </div>
-                    <div>
-                        <h4 className="text-sm font-black uppercase tracking-tight">Classic Duel</h4>
-                        <p className="text-[10px] text-muted-foreground">{isAgainstCpu ? "vs Machine Intelligence" : "Local Multiplayer"}</p>
+                    <div className="min-w-0">
+                        <h4 className="text-[10px] font-bold uppercase tracking-tight truncate">Classic Duel</h4>
+                        <p className="text-[8px] text-muted-foreground truncate">{isAgainstCpu ? "vs CPU" : "2 Player"}</p>
                     </div>
                 </div>
-                <div className="flex gap-2 bg-muted p-1 rounded-lg">
-                    <button 
+                <div className="flex gap-0.5 bg-muted p-0.5 rounded flex-shrink-0">
+                    <button
                         onClick={() => { setIsAgainstCpu(false); resetGame(); setScore({X:0,O:0,Draws:0}); }}
-                        className={cn("p-1.5 rounded-md transition-all", !isAgainstCpu ? "bg-background shadow-sm text-primary" : "text-muted-foreground")}
+                        className={cn("p-1 rounded transition-all min-w-[28px] min-h-[28px] flex items-center justify-center", !isAgainstCpu ? "bg-background shadow-sm text-primary" : "text-muted-foreground")}
+                        title="2 Player"
                     >
-                        <Users className="h-4 w-4" />
+                        <Users className="h-3 w-3" />
                     </button>
-                    <button 
+                    <button
                         onClick={() => { setIsAgainstCpu(true); resetGame(); setScore({X:0,O:0,Draws:0}); }}
-                        className={cn("p-1.5 rounded-md transition-all", isAgainstCpu ? "bg-background shadow-sm text-primary" : "text-muted-foreground")}
+                        className={cn("p-1 rounded transition-all min-w-[28px] min-h-[28px] flex items-center justify-center", isAgainstCpu ? "bg-background shadow-sm text-primary" : "text-muted-foreground")}
+                        title="vs CPU"
                     >
-                        <Cpu className="h-4 w-4" />
+                        <Cpu className="h-3 w-3" />
                     </button>
                 </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2 max-w-[280px] mx-auto">
                 {board.map((cell, i) => (
                     <motion.button
                         key={i}
@@ -192,7 +192,7 @@ export default function TicTacToe() {
                         whileTap={!cell && !winner ? { scale: 0.95 } : {}}
                         onClick={() => handleClick(i)}
                         className={cn(
-                            "aspect-square rounded-2xl flex items-center justify-center text-4xl font-black transition-all duration-300 relative",
+                            "aspect-square min-h-[72px] rounded-xl flex items-center justify-center text-2xl sm:text-3xl font-black transition-all duration-300 relative",
                             !cell && !winner && "bg-muted/30 hover:shadow-inner",
                             cell && "bg-background shadow-lg border border-border/50",
                             winningLine?.includes(i) && (winner === 'X' ? "bg-primary text-white scale-105 z-10 shadow-primary/40 border-primary" : "bg-blue-500 text-white scale-105 z-10 shadow-blue-500/40 border-blue-500")
@@ -218,48 +218,44 @@ export default function TicTacToe() {
                 ))}
             </div>
 
-            <div className="mt-8 flex items-center justify-between gap-4">
-                 <div className="flex items-center gap-2">
+            <div className="mt-4 flex items-center justify-between gap-3">
+                 <div className="flex items-center gap-1.5 min-w-0">
                      <AnimatePresence mode="wait">
                          {winner ? (
-                             <motion.div 
+                             <motion.div
                                 initial={{ x: -10, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
-                                className="flex items-center gap-2"
+                                className="flex items-center gap-1.5"
                              >
-                                 <Trophy className={cn("h-5 w-5", winner === 'Draw' ? "text-amber-500" : (winner === 'X' ? "text-primary" : "text-blue-500"))} />
-                                 <span className="text-sm font-black uppercase tracking-tight">
-                                     {winner === 'Draw' ? "It's a tie!" : `${winner} dominating!`}
+                                 <Trophy className={cn("h-4 w-4 flex-shrink-0", winner === 'Draw' ? "text-amber-500" : (winner === 'X' ? "text-primary" : "text-blue-500"))} />
+                                 <span className="text-xs font-black uppercase tracking-tight truncate">
+                                     {winner === 'Draw' ? "Tie!" : `${winner} wins!`}
                                  </span>
                              </motion.div>
                          ) : (
-                             <div className="flex items-center gap-2">
-                                <Zap className={cn("h-4 w-4 animate-pulse", isXNext ? "text-primary" : "text-blue-500")} />
-                                <span className="text-[10px] font-bold text-muted-foreground uppercase">Live session active</span>
+                             <div className="flex items-center gap-1.5">
+                                <Zap className={cn("h-3.5 w-3.5 animate-pulse flex-shrink-0", isXNext ? "text-primary" : "text-blue-500")} />
+                                <span className="text-[9px] font-bold text-muted-foreground uppercase">Your turn</span>
                              </div>
                          )}
                      </AnimatePresence>
                  </div>
-                 <Button 
-                    variant="secondary" 
-                    size="sm" 
+                 <Button
+                    variant="secondary"
+                    size="sm"
                     onClick={resetGame}
-                    className="h-9 px-4 rounded-xl font-bold uppercase tracking-wider text-[11px] gap-2 active:scale-95 transition-all shadow-sm"
+                    className="h-8 px-3 rounded-lg font-bold uppercase tracking-wider text-[10px] gap-1.5 flex-shrink-0"
                  >
-                    <RefreshCcw className="h-4 w-4" /> New Round
+                    <RefreshCcw className="h-3.5 w-3.5" /> New game
                  </Button>
             </div>
         </Card>
       </div>
 
-      {/* Footer Info */}
-      <div className="flex items-center justify-center gap-6 py-2 opacity-50">
-          <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold">
-              <History className="h-3 w-3" /> SESSION_PERSISTENT
-          </div>
-          <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold">
-              <Zap className="h-3 w-3" /> LATENCY_0ms
-          </div>
+      {/* Minimal footer */}
+      <div className="flex items-center justify-center gap-4 py-1 opacity-40">
+          <span className="font-mono text-[9px] font-bold">Session</span>
+          <span className="font-mono text-[9px] font-bold">0ms</span>
       </div>
     </div>
   );

@@ -1,7 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { getAllSlugs } from '@/lib/githubBlog';
 import { getNewsList } from '@/lib/news';
-import { SITE_CONFIG } from '@/constants';
+import { SITE_CONFIG, TOOLS_ITEMS } from '@/constants';
+import { GAMES } from '@/lib/games';
+import { projects } from '@/data/projects';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogSlugs = await getAllSlugs();
@@ -19,6 +21,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(item.date),
     changeFrequency: 'monthly',
     priority: 0.6,
+  }));
+
+  const toolEntries: MetadataRoute.Sitemap = TOOLS_ITEMS.map((tool) => ({
+    url: `${SITE_CONFIG.url}/tools/${tool.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }));
+
+  const gameEntries: MetadataRoute.Sitemap = GAMES.map((game) => ({
+    url: `${SITE_CONFIG.url}/games/${game.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }));
+
+  const projectEntries: MetadataRoute.Sitemap = projects.map((project) => ({
+    url: `${SITE_CONFIG.url}/projects/${project.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.7,
   }));
 
   return [
@@ -40,7 +63,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily',
       priority: 0.8,
     },
+    {
+      url: `${SITE_CONFIG.url}/tools`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_CONFIG.url}/games`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
     ...blogEntries,
     ...newsEntries,
+    ...toolEntries,
+    ...gameEntries,
+    ...projectEntries,
   ];
 }

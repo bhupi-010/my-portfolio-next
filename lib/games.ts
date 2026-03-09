@@ -4,112 +4,346 @@ export interface Game {
   description: string;
   iframeUrl: string;
   category: string;
+  /** When true, the game blocks iframe embed (e.g. X-Frame-Options). Show "Play on site" card instead. */
+  embedBlocked?: boolean;
 }
 
+/** Free iframe-embeddable games from PlayPager (playpager.com) – they allow embedding with no ads in the games. */
+const PLAYPAGER_BASE = "https://playpager.com";
+
 export const GAMES: Game[] = [
+  {
+    title: "Snake",
+    slug: "snake",
+    description: "Classic Snake with survival and adventure modes. Eat fruit, grow longer, avoid walls and yourself.",
+    iframeUrl: `${PLAYPAGER_BASE}/snake/`,
+    category: "Arcade",
+  },
+  {
+    title: "Ludo",
+    slug: "ludo",
+    description: "Play Ludo against the computer or with friends. Classic board game for 2–4 players.",
+    iframeUrl: `${PLAYPAGER_BASE}/ludo/`,
+    category: "Board",
+  },
+  {
+    title: "Othello Reversi",
+    slug: "othello",
+    description: "Play Othello (Reversi) online against the computer or a friend. Trap and flip discs to win.",
+    iframeUrl: `${PLAYPAGER_BASE}/othello/`,
+    category: "Board",
+  },
+  {
+    title: "Checkers",
+    slug: "checkers",
+    description: "Free Checkers (Draughts) online. Play against the computer AI or a friend in 2-player mode.",
+    iframeUrl: `${PLAYPAGER_BASE}/checkers/`,
+    category: "Board",
+  },
+  {
+    title: "Sudoku",
+    slug: "sudoku",
+    description: "Computer-generated Sudoku puzzles. Easy, medium, and hard levels. No signup required.",
+    iframeUrl: `${PLAYPAGER_BASE}/sudoku/`,
+    category: "Puzzle",
+  },
+  {
+    title: "Solitaire",
+    slug: "solitaire",
+    description: "Freecell, Klondike, Spider, Pyramid, and more. Classic solitaire card games in one place.",
+    iframeUrl: `${PLAYPAGER_BASE}/solitaire/`,
+    category: "Cards",
+  },
+  {
+    title: "Backgammon",
+    slug: "backgammon",
+    description: "Play Backgammon online against the computer or a friend. One of the oldest board games.",
+    iframeUrl: `${PLAYPAGER_BASE}/backgammon/`,
+    category: "Board",
+  },
+  {
+    title: "Battleship",
+    slug: "battleship",
+    description: "Sink the enemy fleet. Place your ships and launch attacks in this classic strategy game.",
+    iframeUrl: `${PLAYPAGER_BASE}/battleship/`,
+    category: "Strategy",
+  },
+  {
+    title: "Pinball",
+    slug: "pinball",
+    description: "Classic pinball with flippers and plunger. Keep the ball on the board and rack up points.",
+    iframeUrl: `${PLAYPAGER_BASE}/pinball/`,
+    category: "Arcade",
+  },
+  {
+    title: "Mahjong",
+    slug: "mahjong",
+    description: "Match pairs of identical tiles. Mahjong Solitaire with easy, medium, and hard levels.",
+    iframeUrl: `${PLAYPAGER_BASE}/mahjong/`,
+    category: "Puzzle",
+  },
+  {
+    title: "Falling Cubes",
+    slug: "cubes",
+    description: "Rotate falling blocks to fit your stack. Clear full lines in this block-puzzle classic.",
+    iframeUrl: `${PLAYPAGER_BASE}/cubes/`,
+    category: "Puzzle",
+  },
+  {
+    title: "Chess",
+    slug: "chess",
+    description: "Play Chess against the computer. Classic board game—move pieces, checkmate the king. Multiple difficulty levels.",
+    iframeUrl: `${PLAYPAGER_BASE}/embed/chess/index.html`,
+    category: "Board",
+  },
+  {
+    title: "Find the Word",
+    slug: "find-the-word",
+    description: "Word puzzle with color hints. Guess the secret word in six tries. Green, yellow, and gray clues—like Wordle.",
+    iframeUrl: `${PLAYPAGER_BASE}/find-word-puzzle/`,
+    category: "Puzzle",
+  },
+  // --- Old / external games (CSP frame-src allows these origins) ---
   {
     title: "Hextris",
     slug: "hextris",
     description: "A fast-paced hexagonal Tetris variant. Rotate the hexagon to match blocks.",
     iframeUrl: "https://hextris.io/",
-    category: "Arcade"
+    category: "Arcade",
   },
   {
     title: "Snake PWA",
     slug: "snake-pwa",
     description: "Classic Snake rebuilt as a high-performance progressive web app. Eat and grow!",
     iframeUrl: "https://snake-pwa.github.io/",
-    category: "Classic"
+    category: "Classic",
   },
   {
     title: "Soodoku",
-    slug: "sudoku",
+    slug: "soodoku",
     description: "Clean, minimal Sudoku puzzles. Exercise your logic with infinite number placements.",
     iframeUrl: "https://soodoku.com/",
-    category: "Puzzle"
+    category: "Puzzle",
   },
   {
     title: "Battleships",
     slug: "battleships",
     description: "Solitaire version of the classic naval combat game. Sink the enemy fleet.",
     iframeUrl: "https://lukerissacher.com/battleships",
-    category: "Strategy"
+    category: "Strategy",
   },
   {
     title: "Prime Sweeper",
     slug: "minesweeper-prime",
     description: "A clever variant of Minesweeper involving prime numbers and logical deduction.",
     iframeUrl: "https://vole.wtf/primesweeper/",
-    category: "Puzzle"
+    category: "Puzzle",
   },
   {
     title: "Tic Tac Toe AI",
     slug: "tic-tac-toe-ai",
     description: "Play the classic Tic Tac Toe against a smart computer opponent. Can you win?",
     iframeUrl: "https://tmaiadev-tictactoe.netlify.app/",
-    category: "Board"
+    category: "Board",
   },
   {
     title: "TacTicToe 3D",
     slug: "tactictoe-3d",
     description: "A 3D variant of Tic Tac Toe with a unique push mechanic for deeper strategy.",
     iframeUrl: "https://tactictoe.io/",
-    category: "Strategy"
+    category: "Strategy",
   },
   {
     title: "Othello Rust",
     slug: "othello-rust",
     description: "Fast-paced Othello (Reversi) implementation in Rust and WebAssembly.",
     iframeUrl: "https://othello-rust.web.app/",
-    category: "Board"
+    category: "Board",
   },
   {
     title: "PWA Memory",
     slug: "memory-pwa",
     description: "Find matching pairs in this modern memory game built for fast browser play.",
     iframeUrl: "https://pwa-memory-game.surge.sh/",
-    category: "Puzzle"
+    category: "Puzzle",
   },
   {
     title: "Hex Puzzles",
     slug: "hex-puzzle",
     description: "A series of challenging hexagonal logic puzzles that will test your spatial reasoning.",
-    iframeUrl: "http://www.mseymour.ca/hex_puzzle/hexpuzzle.html",
-    category: "Puzzle"
+    iframeUrl: "https://www.mseymour.ca/hex_puzzle/hexpuzzle.html",
+    category: "Puzzle",
   },
   {
     title: "Colamone",
     slug: "colamone",
     description: "A chess-like board game with simple rules and deep tactical possibilities.",
     iframeUrl: "https://kurehajime.github.io/colamone_js/",
-    category: "Board"
+    category: "Board",
   },
   {
     title: "HexGL",
     slug: "hexgl",
     description: "High-speed futuristic racing game built with HTML5 and WebGL. Feel the speed.",
-    iframeUrl: "http://hexgl.bkcore.com/play/",
-    category: "Racing"
+    iframeUrl: "https://hexgl.bkcore.com/play/",
+    category: "Racing",
   },
   {
     title: "Chrome Dino",
     slug: "chrome-dino",
     description: "The ultimate 'No Internet' companion. Run, jump over cacti, and dodge pterodactyls.",
     iframeUrl: "https://chromedino.com/",
-    category: "Classic"
+    category: "Classic",
   },
   {
     title: "Flappy Bird",
     slug: "flappy-bird",
     description: "Tap to flap your wings and navigate through infinite rows of green pipes.",
     iframeUrl: "https://flappybird.io/",
-    category: "Arcade"
+    category: "Arcade",
   },
+  // --- Multiplayer (online, different devices – real-time arena) ---
   {
     title: "Slither.io",
     slug: "slither-io",
     description: "Travel through a neon arena eating glowing dots to become the longest snake of all.",
     iframeUrl: "https://slither.io/",
-    category: "Multiplayer"
-  }
+    category: "Multiplayer",
+  },
+  {
+    title: "Vehikill.io",
+    slug: "vehikill-io",
+    description: "Demolition derby for up to 16 players. Wreck other vehicles and be the last one running.",
+    iframeUrl: "https://play.vehikill.io/",
+    category: "Multiplayer",
+  },
+  {
+    title: "Agar.io",
+    slug: "agar-io",
+    description: "Eat smaller cells and avoid bigger ones. Split and merge to dominate the arena.",
+    iframeUrl: "https://agar.io/",
+    category: "Multiplayer",
+  },
+  {
+    title: "Diep.io",
+    slug: "diep-io",
+    description: "Control a tank, destroy shapes and players, and level up to unlock new abilities.",
+    iframeUrl: "https://diep.io/",
+    category: "Multiplayer",
+  },
+  {
+    title: "Krunker.io",
+    slug: "krunker-io",
+    description: "Fast-paced browser FPS. Move, shoot, and outplay others in quick matches.",
+    iframeUrl: "https://krunker.io/",
+    category: "Multiplayer",
+  },
+  {
+    title: "Hole.io",
+    slug: "hole-io",
+    description: "Control a black hole and absorb everything—objects and players—to grow bigger.",
+    iframeUrl: "https://hole.io/",
+    category: "Multiplayer",
+  },
+  {
+    title: "Surviv.io",
+    slug: "surviv-io",
+    description: "2D battle royale. Loot, fight, and survive in solo, duo, or squad matches.",
+    iframeUrl: "https://surviv.io/",
+    category: "Multiplayer",
+  },
+  {
+    title: "Tank Royale",
+    slug: "tank-royale",
+    description: "Tank battle royale. Customize your tank and be the last one standing.",
+    iframeUrl: "https://tankroyale.io/",
+    category: "Multiplayer",
+  },
+  {
+    title: "Build Royale",
+    slug: "build-royale",
+    description: "2D battle royale with building. Gather materials, fight, and build to win.",
+    iframeUrl: "https://buildroyale.io/",
+    category: "Multiplayer",
+  },
+  {
+    title: "Sharkz.io",
+    slug: "sharkz-io",
+    description: "Control a shark, eat to grow, and compete against other players in the ocean.",
+    iframeUrl: "https://sharkz.io/",
+    category: "Multiplayer",
+  },
+  {
+    title: "Sworm.io",
+    slug: "sworm-io",
+    description: "Multiplayer worm action. Control worms, collect power-ups, and outlast others.",
+    iframeUrl: "https://sworm.io/",
+    category: "Multiplayer",
+  },
+  {
+    title: "Robot Royale",
+    slug: "robot-royale",
+    description: "15-player HTML5 shooter. Customize your robot and fight to be the last standing.",
+    iframeUrl: "https://onlinerobotroyale.com/",
+    category: "Multiplayer",
+  },
+  // --- Party (room-based, drawing & guessing) ---
+  {
+    title: "Gartic.io",
+    slug: "gartic-io",
+    description: "Draw and guess with friends. Create a room, share the link, and play with up to 50 people.",
+    iframeUrl: "https://gartic.io/",
+    category: "Party",
+  },
+  {
+    title: "Skribbl.io",
+    slug: "skribbl-io",
+    description: "One player draws, others guess the word. Create a private room and share the link.",
+    iframeUrl: "https://skribbl.io/",
+    category: "Party",
+  },
+  {
+    title: "BombParty",
+    slug: "bombparty",
+    description: "Type words containing the shown letters before the bomb explodes. Last player standing wins.",
+    iframeUrl: "https://bombparty.io/",
+    category: "Party",
+  },
+  // --- Word (room-based, different devices) ---
+  {
+    title: "Crossplay",
+    slug: "crossplay",
+    description: "2-player word game. Create a room, share the 4-letter code, and take turns forming words.",
+    iframeUrl: "https://crossplaygame.org/",
+    category: "Word",
+  },
+  // --- Strategy & board (online, different devices) ---
+  {
+    title: "Web Tic Tac Toe",
+    slug: "web-tic-tac-toe",
+    description: "Play Tic Tac Toe online with a friend. Create a game and share the room ID.",
+    iframeUrl: "https://webtictactoe.com/",
+    category: "Board",
+  },
+  {
+    title: "Ludo Online",
+    slug: "ludo-online",
+    description: "Classic Ludo with friends online. Create a private room and share the link to play.",
+    iframeUrl: "https://play-ludo.com/",
+    category: "Board",
+  },
+  {
+    title: "DragonBound",
+    slug: "dragonbound",
+    description: "Turn-based 2D shooter. Play with or against friends, customize avatars, multiple modes.",
+    iframeUrl: "https://dragonbound.net/",
+    category: "Strategy",
+  },
+  {
+    title: "Strike Tactics",
+    slug: "strike-tactics",
+    description: "HTML5 RTS. Build bases, produce units, and compete in 1v1, team, or free-for-all matches.",
+    iframeUrl: "https://striketactics.net/",
+    category: "Strategy",
+  },
 ];
