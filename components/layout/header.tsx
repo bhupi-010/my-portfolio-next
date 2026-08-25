@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, FileText, ChevronDown, Hash, FileJson, ArrowRightLeft, Image as ImageIcon, Gamepad2, User, Briefcase, Code, PenTool, Newspaper, ChevronRight } from 'lucide-react';
+import { Menu, X, FileText, ChevronDown, Hash, FileJson, ArrowRightLeft, Image as ImageIcon, Gamepad2, User, Briefcase, Code, PenTool, Newspaper, ChevronRight, Youtube } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { NAV_ITEMS, SITE_CONFIG, TOOLS_ITEMS } from '@/constants';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
@@ -17,6 +17,7 @@ const TOOL_ICONS: Record<string, any> = {
   'Base64 Encode/Decode': ArrowRightLeft,
   'Base64 Image Encode/Decode': ImageIcon,
   'Tic Tac Toe Game': Gamepad2,
+  YouTube: Youtube,
 };
 
 const CATEGORY_ICONS: Record<string, any> = {
@@ -56,14 +57,15 @@ export function Header() {
   const isSolid = isScrolled || pathname !== '/';
 
   return (
-    <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isSolid
-          ? 'bg-background/90 backdrop-blur-xl border-b border-border shadow-sm'
-          : 'bg-transparent'
-      )}
-    >
+    <Fragment>
+      <header
+        className={cn(
+          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+          isSolid
+            ? 'bg-background/90 backdrop-blur-xl border-b border-border shadow-sm'
+            : 'bg-transparent'
+        )}
+      >
       <nav className="container-custom">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -295,7 +297,8 @@ export function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+      </header>
+    </Fragment>
   );
 }
 

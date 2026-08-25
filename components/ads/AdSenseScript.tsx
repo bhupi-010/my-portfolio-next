@@ -9,6 +9,7 @@ import Script from 'next/script';
  */
 export function AdSenseScript({ pId }: { pId: string }) {
   if (!pId) return null;
+  if (process.env.NODE_ENV !== 'production') return null;
   
   return (
     <Script

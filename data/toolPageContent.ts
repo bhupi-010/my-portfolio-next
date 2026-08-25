@@ -54,4 +54,14 @@ export const TOOL_PAGE_CONTENT: Record<string, { title: string; body: string }> 
 
 **Technical note:** All logic and rendering run in your browser. No game state or moves are sent to any server. The AI uses a basic minimax-style approach for a quick, fun opponent. Enjoy the game, and use the "Back to Dashboard" link to explore other developer utilities on this site.`,
   },
+  youtube: {
+    title: 'About the YouTube Mini Player',
+    body: `This YouTube player is a compact watch page on this site. Search like YouTube: type a topic, pick a result, and watch it in the official YouTube embed. YouTube no longer lets third-party pages search inside the embed itself, so this page looks up matching videos and then plays the one you choose. Pop out uses the browser picture-in-picture overlay so playback can stay on top in Chrome or Edge while you code.
+
+**How to use it:** Open Tools → YouTube. Type a search (song, talk, tutorial) and press Search. The first result starts in the player; click another title in the list to switch videos. Pop out keeps a small overlay on top of other windows. Dock brings YouTube back onto this page. Close clears the current search and video.
+
+**Why it’s included:** Talks, conference recordings, and tutorials are part of everyday development. A dedicated tool page gives that a canonical URL on this site instead of a floating button on every route. Playback uses YouTube’s official embed. Search queries are sent only to this site’s search helper so it can return a list of public videos—nothing else you type is stored as an account or profile.
+
+**Notes:** Picture-in-picture needs Chrome or Edge. If the overlay is blocked, YouTube stays on this page. An ad blocker may hide YouTube tracking requests in the console without stopping playback. Use publicly available, family-safe videos you would watch on a professional site. The full youtube.com website cannot be framed here because YouTube blocks that; this embed is the supported way to watch on a third-party page.`,
+  },
 };

@@ -1,8 +1,7 @@
 import './globals.css';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
+import { SiteShell } from '@/components/layout/site-shell';
 import { SITE_CONFIG, ADSENSE_CONFIG } from '@/constants';
 import { AdSenseScript } from '@/components/ads/AdSenseScript';
 import type { Metadata } from 'next';
@@ -104,11 +103,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`} suppressHydrationWarning>
         <AdSenseScript pId={ADSENSE_CONFIG.pId} />
         <ThemeProvider>
-          <div className="relative min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          <SiteShell>{children}</SiteShell>
         </ThemeProvider>
         <script
           type="application/ld+json"

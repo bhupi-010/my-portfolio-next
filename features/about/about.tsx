@@ -48,7 +48,7 @@ export function About() {
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
-                priority
+                loading="lazy"
               />
             </div>
             {/* Decorative elements */}

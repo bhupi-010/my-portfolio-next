@@ -8,6 +8,7 @@ import {
   JsonBeautifier,
   Base64Tool,
   Base64ImageTool,
+  YoutubePlayerTool,
 } from "@/features/tools";
 import { motion } from "framer-motion";
 import { ArrowLeft, Share2 } from "lucide-react";
@@ -22,6 +23,7 @@ const TOOL_COMPONENTS: Record<string, React.ComponentType> = {
   "base64-text": Base64Tool,
   "base64-image": Base64ImageTool,
   "tic-tac-toe": TicTacToe,
+  youtube: YoutubePlayerTool,
 };
 
 interface ToolContentProps {

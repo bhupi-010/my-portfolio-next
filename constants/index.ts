@@ -80,6 +80,13 @@ export const TOOLS_ITEMS = [
     description: 'Play a classic game of Tic Tac Toe. Challenge our smart AI or play locally with a friend. Features pro gaming UI and session scoring.',
     keywords: 'tic tac toe, online game, react game, mini game, play tic tac toe, coding game'
   },
+  {
+    label: 'YouTube',
+    href: '/tools/youtube',
+    slug: 'youtube',
+    description: 'Watch YouTube on this page. Search and play like YouTube, then pop out to a picture-in-picture overlay while you work.',
+    keywords: 'YouTube player, mini player, picture in picture, YouTube overlay, watch YouTube, developer tool'
+  },
 ] as const;
 
 export const ANIMATION_DURATION = {

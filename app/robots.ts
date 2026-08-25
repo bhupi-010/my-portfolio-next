@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/'],
+        disallow: ['/api/', '/youtube-embed'],
       },
     ],
     sitemap: `${SITE_CONFIG.url}/sitemap.xml`,
