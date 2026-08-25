@@ -45,7 +45,7 @@ function collectVideos(node: unknown, videos: YouTubeSearchVideo[], seen: Set<st
 
   const renderer = asRecord(record.videoRenderer);
   const id = typeof renderer?.videoId === 'string' ? renderer.videoId : '';
-  if (id && /^[\w-]{11}$/.test(id) && !seen.has(id)) {
+  if (renderer && id && /^[\w-]{11}$/.test(id) && !seen.has(id)) {
     seen.add(id);
     videos.push({
       id,
