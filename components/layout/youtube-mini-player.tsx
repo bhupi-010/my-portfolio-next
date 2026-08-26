@@ -141,7 +141,9 @@ export function YoutubeMiniPlayer() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/youtube-search?q=${encodeURIComponent(next)}`);
+      const response = await fetch(`/api/youtube-search?q=${encodeURIComponent(next)}`, {
+        cache: 'no-store',
+      });
       const payload = (await response.json()) as { videos?: YouTubeSearchVideo[]; error?: string };
       if (!response.ok) {
         setError(payload.error || 'Search failed. Try again.');

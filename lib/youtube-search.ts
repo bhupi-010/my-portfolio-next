@@ -71,7 +71,7 @@ async function searchWithDataApi(query: string, key: string): Promise<YouTubeSea
   url.searchParams.set('q', query);
   url.searchParams.set('key', key);
 
-  const response = await fetch(url, { signal: AbortSignal.timeout(8000) });
+  const response = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(8000) });
   if (!response.ok) throw new Error(`YouTube Data API ${response.status}`);
 
   const payload = (await response.json()) as {
@@ -96,6 +96,7 @@ async function searchWithDataApi(query: string, key: string): Promise<YouTubeSea
 async function searchWithInnerTube(query: string): Promise<YouTubeSearchVideo[]> {
   const response = await fetch('https://www.youtube.com/youtubei/v1/search?prettyPrint=false', {
     method: 'POST',
+    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json',
       'User-Agent': 'Mozilla/5.0',

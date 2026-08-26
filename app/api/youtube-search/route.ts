@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { searchYouTube } from '@/lib/youtube-search';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+const NO_STORE = 'no-store, no-cache, must-revalidate';
 
 export async function GET(request: Request) {
   const query = new URL(request.url).searchParams.get('q')?.trim() ?? '';
@@ -15,7 +18,10 @@ export async function GET(request: Request) {
       { videos },
       {
         headers: {
-          'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=600',
+          'Cache-Control': NO_STORE,
+          // Netlify Durable Cache ignores `q` unless told to vary on it.
+          'Netlify-CDN-Cache-Control': NO_STORE,
+          'Netlify-Vary': 'query=q',
           'X-Robots-Tag': 'noindex, nofollow',
         },
       }
